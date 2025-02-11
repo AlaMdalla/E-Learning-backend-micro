@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.util.List;
 @RestController
-@CrossOrigin("http://localhost:4200/")
+@CrossOrigin
 @RequestMapping("/problems")
 public class ProblemController {
 
@@ -34,6 +34,10 @@ private ProblemService problemService;
     @GetMapping("/")
     List<Problem> getProblems(){
         return this.problemService.getProblems();    }
+    @GetMapping("/{id}")
+    Problem getProblem(@PathVariable Integer id){
+        return this.problemService.getProblem(id);    }
+    @CrossOrigin(origins = "http://localhost:4200")  // Allow CORS for this method only
     @DeleteMapping("/{id}")
     String deleteProblem(@PathVariable Integer id){
         return this.problemService.deleteProblem(id);

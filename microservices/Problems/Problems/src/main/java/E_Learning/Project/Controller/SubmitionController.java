@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/submition")
+@CrossOrigin
+@RequestMapping("/submitions")
 public class SubmitionController {
     private SubmitionService submitionService;
     FileReaderService fileReaderService = new FileReaderServiceImpl();
@@ -24,6 +25,7 @@ public class SubmitionController {
     }
 
     private ProblemService problemService;
+
 
 
     @PostMapping("/submit/{problemId}")

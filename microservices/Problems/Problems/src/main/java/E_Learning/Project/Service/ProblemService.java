@@ -9,5 +9,6 @@ public interface ProblemService {
     public ProblemDto addProblem(Problem problem);
     public List<Problem> getProblems();
     public Problem getProblem( Integer id);
+    public String deleteProblem( Integer id);
 
 }

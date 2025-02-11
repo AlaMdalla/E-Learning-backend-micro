@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.util.List;
 @RestController
+@CrossOrigin("http://localhost:4200/")
 @RequestMapping("/problems")
 public class ProblemController {
 
@@ -33,25 +34,8 @@ private ProblemService problemService;
     @GetMapping("/")
     List<Problem> getProblems(){
         return this.problemService.getProblems();    }
-    @PostMapping("/submit")
-    ResponseEntity submitProblem(@RequestBody String code){
-  String mainClass =this.problemService.getProblem(352).getMainClass();
-        CodeRunner codeRunner = new CodeRunner(fileReaderService, codeCompiler, testCaseExecutor);
-        codeRunner.run(mainClass,code);
-
-      //  CodeRunner codeRunner =new CodeRunner(mainClass,code);
-       try {
-
-           return ResponseEntity.status(HttpStatus.OK)
-                   .header("Content-Type", "text/plain")
-                   .body(codeRunner.result);
-
-       }catch (Exception exception)
-       {
-           System.out.println("pppp");
-       }
-        return ResponseEntity.status(HttpStatus.OK)
-                .header("Content-Type", "text/plain")
-                .body("noooo");
+    @DeleteMapping("/{id}")
+    String deleteProblem(@PathVariable Integer id){
+        return this.problemService.deleteProblem(id);
     }
 }

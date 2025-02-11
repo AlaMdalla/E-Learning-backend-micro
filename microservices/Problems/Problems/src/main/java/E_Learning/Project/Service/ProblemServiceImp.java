@@ -29,4 +29,15 @@ public class ProblemServiceImp implements ProblemService {
     }
     public Problem getProblem( Integer id) {return  this.problemRepository.findById(id).get();}
 
+    @Override
+    public String deleteProblem(Integer id) {
+        Problem problem =problemRepository.findById(id).get();
+        if(problem!=null){
+            this.problemRepository.delete(problem);
+            return "deleted";
+        }
+
+        return "not founded";
+    }
+
 }

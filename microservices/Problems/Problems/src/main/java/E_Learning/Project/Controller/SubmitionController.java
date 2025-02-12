@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/submitions")
 public class SubmitionController {
     private SubmitionService submitionService;
@@ -27,6 +27,7 @@ public class SubmitionController {
     private ProblemService problemService;
 
 
+    @CrossOrigin(origins = "http://localhost:4200")
 
     @PostMapping("/submit/{problemId}")
     public ResponseEntity<?> submitProblem(@RequestBody String code, @PathVariable Integer problemId) {

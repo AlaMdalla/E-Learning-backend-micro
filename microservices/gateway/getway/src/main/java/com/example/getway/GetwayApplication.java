@@ -22,6 +22,8 @@ public class GetwayApplication {
 		//return builder.routes().route("candidat",r->r.path("/candidats/**").uri("http://localhost:8054")).build();
 		return builder.routes().route("problem",r->r.path("/problems/**").uri("lb://SERVICEPROBLEMS"))
 				.route("submition",r->r.path("/submitions/**").uri("lb://SERVICEPROBLEMS"))
+				.route("blog",r->r.path("/blog/**").uri("lb://BLOG"))
+
 				.build();
 
 

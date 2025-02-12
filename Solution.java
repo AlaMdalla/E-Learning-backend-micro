@@ -13,7 +13,7 @@ public class Solution {public static int[] twoSum(int[] nums, int target) {
                     returnsum[0]=targetMap.get(targ0);
                     return returnsum;
                 }
-  targetMap.put(nums[i],i);
+  targetMap.put(nums[i],i+1);
             }
 return null;
             }public static void main(String[] args) {

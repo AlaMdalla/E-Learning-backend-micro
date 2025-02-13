@@ -23,6 +23,8 @@ public class GetwayApplication {
 		return builder.routes().route("problem",r->r.path("/problems/**").uri("lb://SERVICEPROBLEMS"))
 				.route("submition",r->r.path("/submitions/**").uri("lb://SERVICEPROBLEMS"))
 				.route("blog",r->r.path("/blog/**").uri("lb://BLOG"))
+				.route("training",r->r.path("/trainings/**").uri("lb://TRAINING"))
+				.route("question",r->r.path("/questionadd/**").uri("lb://TRAINING"))
 
 				.build();
 

@@ -10,7 +10,7 @@
         <module name="getway" />
         <module name="candidat" />
       </profile>
-      <profile name="Annotation profile for Project" enabled="true">
+      <profile name="Annotation profile for pidev" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
@@ -19,6 +19,7 @@
         </processorPath>
         <module name="Project" />
         <module name="Project (1)" />
+        <module name="pidev" />
       </profile>
     </annotationProcessing>
   </component>
@@ -29,6 +30,7 @@
       <module name="candidat" options="-parameters" />
       <module name="eureka-server" options="-parameters" />
       <module name="getway" options="-parameters" />
+      <module name="pidev" options="-parameters" />
     </option>
   </component>
 </project>

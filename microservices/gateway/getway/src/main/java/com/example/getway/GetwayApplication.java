@@ -21,10 +21,12 @@ public class GetwayApplication {
 	public RouteLocator customRouteLocator(RouteLocatorBuilder builder){
 		//return builder.routes().route("candidat",r->r.path("/candidats/**").uri("http://localhost:8054")).build();
 		return builder.routes().route("problem",r->r.path("/problems/**").uri("lb://SERVICEPROBLEMS"))
+				.route("Competition",r->r.path("/Competitions/**").uri("lb://SERVICEPROBLEMS"))
+
 				.route("submition",r->r.path("/submitions/**").uri("lb://SERVICEPROBLEMS"))
 				.route("blog",r->r.path("/blog/**").uri("lb://BLOG"))
 				.route("training",r->r.path("/trainings/**").uri("lb://TRAINING"))
-				.route("question",r->r.path("/questionadd/**").uri("lb://TRAINING"))
+				.route("question",r->r.path("/question/**").uri("lb://TRAINING"))
 
 				.build();
 

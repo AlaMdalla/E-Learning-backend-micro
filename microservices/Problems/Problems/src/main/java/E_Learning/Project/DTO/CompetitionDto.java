@@ -1,5 +1,7 @@
 package E_Learning.Project.DTO;
 
+import E_Learning.Project.Entity.Problem;
+
 import java.util.List;
 
 public class CompetitionDto {
@@ -7,11 +9,15 @@ public class CompetitionDto {
     private String title;
     private  String description;
     private List<String> prices;
+    private List<Problem> problems;
+
     private CompetitionDto(Builder builder) {
         this.id = builder.id;
         this.title = builder.title;
         this.description = builder.description;
         this.prices = builder.prices;
+        this.problems = builder.problems;
+
     }
     public static class Builder {
         private int id;
@@ -19,6 +25,7 @@ public class CompetitionDto {
         private  String description;
         private List<String> prices;
 
+        private List<Problem> problems;
 
 
         public Builder id(int id){
@@ -39,7 +46,10 @@ public class CompetitionDto {
             this.prices = prices;
             return this;
         }
-
+        public Builder problems(List<Problem> problems) {
+            this.problems = problems;
+            return this;
+        }
         public CompetitionDto build() {
             return new CompetitionDto(this  );
         }

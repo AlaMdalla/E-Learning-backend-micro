@@ -28,7 +28,7 @@ public class Problem {
     private List<Tags> tags;
     private String difficulty;
     private String mainClass;
-    @OneToMany(mappedBy = "problem")
+    @OneToMany(mappedBy = "problem" , cascade = CascadeType.ALL)
 
     private  List<Submition> submitions;
 

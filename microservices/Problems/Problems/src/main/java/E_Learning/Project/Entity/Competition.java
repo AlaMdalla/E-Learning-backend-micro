@@ -1,20 +1,28 @@
 package E_Learning.Project.Entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.util.List;
 
 @Entity
 public class Competition {
+    public List<Problem> getProblems() {
+        return problems;
+    }
+
+    public void setProblems(List<Problem> problems) {
+        this.problems = problems;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
 
     private int id;
     private String title;
     private  String description;
+    private List<String> prices;
+    @OneToMany
+    private List<Problem> problems;
 
     public List<String> getPrices() {
         return prices;
@@ -48,7 +56,7 @@ public class Competition {
         this.id = id;
     }
 
-    private List<String> prices;
+
 
 
 }

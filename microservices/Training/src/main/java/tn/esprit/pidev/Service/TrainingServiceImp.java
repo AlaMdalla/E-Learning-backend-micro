@@ -1,7 +1,11 @@
 package tn.esprit.pidev.Service;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import tn.esprit.pidev.Entity.Training;
+import tn.esprit.pidev.Repository.EvaluationRepository;
 import tn.esprit.pidev.Repository.TrainingRepository;
 
 import java.util.List;
@@ -10,10 +14,12 @@ import java.util.List;
 public class TrainingServiceImp implements ITrainingService
 {
     private final TrainingRepository trainingRepository;
+  private final EvaluationRepository evaluationRepository;
 
-    public TrainingServiceImp(TrainingRepository trainingRepository) {
+  public TrainingServiceImp(TrainingRepository trainingRepository, EvaluationRepository evaluationRepository) {
         this.trainingRepository = trainingRepository;
-    }
+    this.evaluationRepository = evaluationRepository;
+  }
 
 
     @Override
@@ -33,7 +39,13 @@ public class TrainingServiceImp implements ITrainingService
 
     @Override
     public void deleteTraining(int idTraining) {
-        trainingRepository.deleteById(idTraining);
+      evaluationRepository.deleteById(idTraining);
+      trainingRepository.deleteById(idTraining);
     }
 
-}
+
+  }
+
+
+
+

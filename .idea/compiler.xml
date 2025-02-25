@@ -2,6 +2,7 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
       <profile name="Maven default annotation processors profile" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
@@ -10,7 +11,7 @@
         <module name="getway" />
         <module name="candidat" />
       </profile>
-      <profile name="Annotation profile for Project" enabled="true">
+      <profile name="Annotation profile for pidev" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
@@ -19,6 +20,7 @@
         </processorPath>
         <module name="Project" />
         <module name="Project (1)" />
+        <module name="Project (2)" />
         <module name="pidev" />
       </profile>
     </annotationProcessing>
@@ -27,6 +29,7 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="Project" options="-parameters" />
       <module name="Project (1)" options="-parameters" />
+      <module name="Project (2)" options="-parameters" />
       <module name="candidat" options="-parameters" />
       <module name="eureka-server" options="-parameters" />
       <module name="getway" options="-parameters" />

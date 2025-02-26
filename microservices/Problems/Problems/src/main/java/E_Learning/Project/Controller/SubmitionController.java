@@ -11,8 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
-@RequestMapping("/submitions")
+    @RequestMapping("/submitions")
 public class SubmitionController {
     private SubmitionService submitionService;
     FileReaderService fileReaderService = new FileReaderServiceImpl();

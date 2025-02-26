@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 
 @SpringBootApplication
 @EnableDiscoveryClient
-@CrossOrigin
 public class GetwayApplication {
 
 	public static void main(String[] args) {
@@ -34,4 +33,5 @@ public class GetwayApplication {
 
 
 	}
+
 }

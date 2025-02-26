@@ -34,7 +34,6 @@ public class CandidateService {
         Job job = jobRepository.findById(request.getJobId())
                 .orElseThrow(() -> new RuntimeException("Job not found with ID: " + request.getJobId()));
 
-        // Create a new Candidate
         Candidate candidate = new Candidate();
         candidate.setPhone(request.getPhone());
         candidate.setResumeUrl(request.getResumeUrl());

@@ -1,6 +1,7 @@
 package E_Learning.Project.Entity;
 
 import E_Learning.Project.Enums.Tags;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -25,7 +26,9 @@ public class Problem {
 
     private String title;
     private String description;
+    @JsonDeserialize(using = TagsDeserializer.class)
     private List<Tags> tags;
+
     private String difficulty;
     private String mainClass;
     @OneToMany(mappedBy = "problem" , cascade = CascadeType.ALL)

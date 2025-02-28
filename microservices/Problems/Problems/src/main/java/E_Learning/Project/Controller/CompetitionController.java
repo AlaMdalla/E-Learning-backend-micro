@@ -36,4 +36,17 @@ public class CompetitionController {
     @GetMapping("/{idCompetition}")
     Competition getCompetition(@PathVariable Integer idCompetition){
         return this.competitionService.getCompetition(idCompetition);    }
+    @DeleteMapping("/{id}")
+    String delete(@PathVariable Integer id){
+        return this.competitionService.deleteCompetition(id);
+    }
+    @PutMapping("/{id}")
+    public Competition updateCompetition(
+            @PathVariable Integer id,
+            @RequestBody Competition competition) {
+
+       return
+               competitionService.updateCompetition(id, competition);
+    }
+
 }

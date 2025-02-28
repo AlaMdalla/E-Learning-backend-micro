@@ -44,4 +44,9 @@ private ProblemService problemService;
     String deleteProblem(@PathVariable Integer id){
         return this.problemService.deleteProblem(id);
     }
+    @PutMapping("/{id}")
+    Problem editProblem(@PathVariable Integer id,@RequestBody Problem p){
+        return this.problemService.updateProblem(id,p);
+    }
+
 }

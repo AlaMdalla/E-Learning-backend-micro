@@ -7,7 +7,7 @@ import tn.esprit.pidev.Entity.Training;
 import tn.esprit.pidev.Service.TrainingServiceImp;
 
 import java.util.List;
-@CrossOrigin
+
 @RestController
 @RequestMapping("/trainings")
 public class TrainingController {

@@ -26,7 +26,6 @@ public class Problem {
 
     private String title;
     private String description;
-    @JsonDeserialize(using = TagsDeserializer.class)
     private List<Tags> tags;
 
     private String difficulty;

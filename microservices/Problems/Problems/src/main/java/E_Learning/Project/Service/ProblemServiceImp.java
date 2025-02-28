@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProblemServiceImp implements ProblemService {
@@ -40,4 +41,22 @@ public class ProblemServiceImp implements ProblemService {
         return "not founded";
     }
 
+    @Override
+    public Problem updateProblem(Integer id, Problem p) {
+        Optional<Problem> existingProblemOpt = problemRepository.findById(id);
+
+        if (existingProblemOpt.isPresent()) {
+            Problem existingProblem = existingProblemOpt.get();
+
+            existingProblem.setTitle(p.getTitle());
+            existingProblem.setDescription(p.getDescription());
+            existingProblem.setDifficulty(p.getDifficulty());
+            existingProblem.setMainClass(p.getMainClass());
+            existingProblem.setTags(p.getTags());
+
+            return problemRepository.save(existingProblem);
+
+        }
+return  p;
+    }
 }

@@ -10,13 +10,14 @@ public class CompetitionDto {
     private  String description;
     private List<String> prices;
     private List<Problem> problems;
-
+    private String image;
     private CompetitionDto(Builder builder) {
         this.id = builder.id;
         this.title = builder.title;
         this.description = builder.description;
         this.prices = builder.prices;
         this.problems = builder.problems;
+        this.image=builder.image;
 
     }
     public static class Builder {
@@ -27,13 +28,17 @@ public class CompetitionDto {
 
         private List<Problem> problems;
 
-
+        private String image;
         public Builder id(int id){
             this.id=id;
             return  this;
         }
         public Builder title(String title) {
             this.title = title;
+            return this;
+        }
+        public Builder image(String image) {
+            this.image = image;
             return this;
         }
 

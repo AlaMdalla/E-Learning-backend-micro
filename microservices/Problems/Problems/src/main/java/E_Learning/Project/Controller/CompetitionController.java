@@ -22,6 +22,8 @@ public class CompetitionController {
 
     @PostMapping("/")
     CompetitionDto addCompetition(@RequestBody Competition c){
+        System.out.println("Received Image: " + c.getImage()); // Debugging
+
         return this.competitionService.addCompetition(c);
     }
     @GetMapping("/")

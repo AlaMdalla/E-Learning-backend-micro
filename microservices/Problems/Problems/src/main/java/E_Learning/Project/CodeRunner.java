@@ -18,15 +18,16 @@ public class CodeRunner {
     private final FileReaderService fileReaderService;
     private final CodeCompiler codeCompiler;
     private final TestCaseExecutor testCaseExecutor;
-public  String result ="";
+    public  String result ="";
     private static final String FILE_NAME = "Solution.java";
-    private static final String TESTCASE_FILE = "testcases.txt";
+    private  String TESTCASE_FILE;
     private static final String CLASS_NAME = "Solution";
 
-    public CodeRunner(FileReaderService fileReaderService, CodeCompiler codeCompiler, TestCaseExecutor testCaseExecutor) {
+    public CodeRunner(FileReaderService fileReaderService, CodeCompiler codeCompiler, TestCaseExecutor testCaseExecutor,String TESTCASE_FILE) {
         this.fileReaderService = fileReaderService;
         this.codeCompiler = codeCompiler;
         this.testCaseExecutor = testCaseExecutor;
+        this.TESTCASE_FILE=TESTCASE_FILE;
     }
 
     public void run(String pathToMain, String usercode0) {

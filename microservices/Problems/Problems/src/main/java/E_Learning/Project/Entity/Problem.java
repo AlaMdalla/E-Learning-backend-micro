@@ -27,9 +27,10 @@ public class Problem {
     private String title;
     private String description;
     private List<Tags> tags;
-
+    private   String linkTotestcases;
     private String difficulty;
     private String mainClass;
+
     @OneToMany(mappedBy = "problem" , cascade = CascadeType.ALL)
 
     private  List<Submition> submitions;
@@ -74,7 +75,7 @@ public class Problem {
         this.linkTotestcases = linkTotestcases;
     }
 
-    private   String linkTotestcases;
+
 
     public String getMainClass() {
         return mainClass;

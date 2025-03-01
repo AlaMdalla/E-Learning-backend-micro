@@ -52,6 +52,8 @@ public class ProblemServiceImp implements ProblemService {
             existingProblem.setDescription(p.getDescription());
             existingProblem.setDifficulty(p.getDifficulty());
             existingProblem.setMainClass(p.getMainClass());
+            existingProblem.setLinkTotestcases(p.getLinkTotestcases());
+
             existingProblem.setTags(p.getTags());
 
             return problemRepository.save(existingProblem);

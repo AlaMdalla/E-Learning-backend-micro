@@ -32,7 +32,7 @@ public class SubmitionController {
         Submition submition =new Submition();
         Problem problem = this.submitionService.submitProblem(submition,problemId);
         String mainClass = problem.getMainClass();
-        CodeRunner codeRunner = new CodeRunner(fileReaderService, codeCompiler, testCaseExecutor);
+        CodeRunner codeRunner = new CodeRunner(fileReaderService, codeCompiler, testCaseExecutor,problem.getLinkTotestcases());
         codeRunner.run(mainClass,code);
         try {
             List<Submition> submissions = problem.getSubmitions();

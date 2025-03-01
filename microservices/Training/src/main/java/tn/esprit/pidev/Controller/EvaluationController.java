@@ -8,7 +8,7 @@ import tn.esprit.pidev.Entity.Evaluation;
 import tn.esprit.pidev.Service.IEvaluationService;
 
 import java.util.List;
-@CrossOrigin
+
 @RestController
 @RequestMapping("/evaluation")
 public class EvaluationController {

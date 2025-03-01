@@ -10,7 +10,8 @@ import tn.esprit.pidev.Service.TrainingServiceImp;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
+
+//@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/trainings")
 public class TrainingController {
         private final TrainingServiceImp trainingServiceImp;
@@ -33,6 +34,7 @@ public class TrainingController {
 
     @PostMapping("/add-training")
     public ResponseEntity<Training> addTraining(@RequestBody Training training) {
+      System.out.println("Received Training Data: " + training);
         Training createdTraining = trainingServiceImp.saveTraining(training);
         return new ResponseEntity<>(createdTraining, HttpStatus.CREATED);
     }

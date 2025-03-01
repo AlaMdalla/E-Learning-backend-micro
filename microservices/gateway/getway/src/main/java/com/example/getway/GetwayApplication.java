@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 
 @SpringBootApplication
 @EnableDiscoveryClient
-@CrossOrigin
 public class GetwayApplication {
 
 	public static void main(String[] args) {
@@ -28,7 +27,8 @@ public class GetwayApplication {
 				.route("training",r->r.path("/e-learning/**").uri("lb://TRAINING"))
 				.route("question",r->r.path("/question/**").uri("lb://TRAINING"))
 
-				.build();
+
+      .build();
 
 
 	}

@@ -6,10 +6,7 @@ import jakarta.persistence.*;
 public class Reponse {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long idReponse;
-
-  @ManyToOne
-  private Utilisateur utilisateur;
+  private int idReponse;
 
   @ManyToOne
   private Evaluation evaluation;
@@ -19,25 +16,18 @@ public class Reponse {
 
 
   private String reponse;
-
+  //private String status;
 
   private Boolean estCorrect;
 
+  private double scoreObtenu;
 
-  public Long getIdReponse() {
+  public int getIdReponse() {
     return idReponse;
   }
 
-  public void setIdReponse(Long idReponse) {
+  public void setIdReponse(int idReponse) {
     this.idReponse = idReponse;
-  }
-
-  public Utilisateur getUtilisateur() {
-    return utilisateur;
-  }
-
-  public void setUtilisateur(Utilisateur utilisateur) {
-    this.utilisateur = utilisateur;
   }
 
   public Evaluation getEvaluation() {
@@ -64,11 +54,21 @@ public class Reponse {
     this.reponse = reponse;
   }
 
+
+
   public Boolean getEstCorrect() {
     return estCorrect;
   }
 
   public void setEstCorrect(Boolean estCorrect) {
     this.estCorrect = estCorrect;
+  }
+
+  public double getScoreObtenu() {
+    return scoreObtenu;
+  }
+
+  public void setScoreObtenu(double scoreObtenu) {
+    this.scoreObtenu = scoreObtenu;
   }
 }

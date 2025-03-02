@@ -41,6 +41,18 @@ public class Question {
     }
 
     private String questionText;
+  private String reponseCorrecte; // Réponse correcte
+
+  // Getter et setter pour reponseCorrecte
+  public String getReponseCorrecte() {
+    return reponseCorrecte;
+  }
+
+  public void setReponseCorrecte(String reponseCorrecte) {
+    this.reponseCorrecte = reponseCorrecte;
+  }
+
+
 
 
 }

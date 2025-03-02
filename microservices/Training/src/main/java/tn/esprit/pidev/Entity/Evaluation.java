@@ -6,95 +6,97 @@ import lombok.NoArgsConstructor;
 
 import java.util.Date;
 import java.util.Set;
+
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 public class Evaluation {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-     private int idEvaluation;
-    @ManyToOne
-    private Training training;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private int idEvaluation;
 
-    private String description;
-    private String type;
-    private String evaluation_duration;
-    private double score;
-    private Date createdAt;
-    private boolean certificat;
+  @ManyToOne
+  private Training training;
 
-    public int getIdEvaluation() {
-        return idEvaluation;
-    }
+  private String description;
+  private String type;
+  private String evaluation_duration;
+  private double score;
+  private Date createdAt;
+  private boolean certificat;
 
-    public void setIdEvaluation(int idEvaluation) {
-        this.idEvaluation = idEvaluation;
-    }
+  @OneToMany(cascade = CascadeType.ALL)
+  private Set<Question> questions;  // Declare the field before its setter method
 
-    public Training getTraining() {
-        return training;
-    }
+  public int getIdEvaluation() {
+    return idEvaluation;
+  }
 
-    public void setTraining(Training training) {
-        this.training = training;
-    }
+  public void setIdEvaluation(int idEvaluation) {
+    this.idEvaluation = idEvaluation;
+  }
 
-    public String getDescription() {
-        return description;
-    }
+  public Training getTraining() {
+    return training;
+  }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+  public void setTraining(Training training) {
+    this.training = training;
+  }
 
-    public String getType() {
-        return type;
-    }
+  public String getDescription() {
+    return description;
+  }
 
-    public void setType(String type) {
-        this.type = type;
-    }
+  public void setDescription(String description) {
+    this.description = description;
+  }
 
-    public String getEvaluation_duration() {
-        return evaluation_duration;
-    }
+  public String getType() {
+    return type;
+  }
 
-    public void setEvaluation_duration(String evaluation_duration) {
-        this.evaluation_duration = evaluation_duration;
-    }
+  public void setType(String type) {
+    this.type = type;
+  }
 
-    public double getScore() {
-        return score;
-    }
+  public String getEvaluation_duration() {
+    return evaluation_duration;
+  }
 
-    public void setScore(double score) {
-        this.score = score;
-    }
+  public void setEvaluation_duration(String evaluation_duration) {
+    this.evaluation_duration = evaluation_duration;
+  }
 
-    public Date getCreatedAt() {
-        return createdAt;
-    }
+  public double getScore() {
+    return score;
+  }
 
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
+  public void setScore(double score) {
+    this.score = score;
+  }
 
-    public boolean isCertificat() {
-        return certificat;
-    }
+  public Date getCreatedAt() {
+    return createdAt;
+  }
 
-    public void setCertificat(boolean certificat) {
-        this.certificat = certificat;
-    }
+  public void setCreatedAt(Date createdAt) {
+    this.createdAt = createdAt;
+  }
 
-    public Set<Question> getQuestions() {
-        return questions;
-    }
+  public boolean isCertificat() {
+    return certificat;
+  }
 
-    public void setQuestions(Set<Question> questions) {
-        questions = questions;
-    }
+  public void setCertificat(boolean certificat) {
+    this.certificat = certificat;
+  }
 
-    @OneToMany(cascade = CascadeType.ALL)
-    private Set<Question> questions;
+  public Set<Question> getQuestions() {
+    return questions;
+  }
+
+  public void setQuestions(Set<Question> questions) {
+    this.questions = questions;
+  }
 }

@@ -5,17 +5,17 @@ import tn.esprit.pidev.Entity.Reponse;
 import java.util.List;
 
 public interface IReponseService {
-  Reponse ajouterReponse(Reponse reponse);
+  // Ajouter une réponse et calculer le score
+  Reponse addReponse(Reponse reponse);
 
-  Reponse mettreAJourReponse(Long idReponse, Reponse reponse);
+  // Calculer le score d'une réponse en fonction de sa validité
+  double calculerScore(Reponse reponse);
 
-  void supprimerReponse(Long idReponse);
+  // Récupérer toutes les réponses pour une évaluation spécifique
+  List<Reponse> getReponsesByEvaluationId(int idEvaluation);
 
-  List<Reponse> recupererToutesLesReponses();
-
-  Reponse recupererReponseParId(Long idReponse);
-
-  List<Reponse> recupererReponsesParUtilisateur(Long idUtilisateur);
-
-  List<Reponse> recupererReponsesParEvaluation(Long idEvaluation);
+  // Certifier la réponse en fonction de sa validité
+  String certifierReponse(Reponse reponse);
 }
+
+

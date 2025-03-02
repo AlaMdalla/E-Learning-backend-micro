@@ -1,5 +1,6 @@
 package tn.esprit.pidev.Service;
 
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import tn.esprit.pidev.Entity.Question;
 import tn.esprit.pidev.Repository.QuestionRepository;
@@ -7,6 +8,7 @@ import tn.esprit.pidev.Repository.TrainingRepository;
 
 import java.util.List;
 @Service
+@Transactional
 public class QuestionServiceImp implements IQuestionService{
     private final QuestionRepository questionRepository;
 

@@ -1,6 +1,7 @@
 package tn.esprit.pidev.Entity;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -17,7 +18,9 @@ public class Training
 private int idTraining;
     private String title;
     private String content;
-    private Date trainingdate;
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+  private Date trainingdate;
+
     private String duration;
     @Enumerated(EnumType.STRING)
     private status status;

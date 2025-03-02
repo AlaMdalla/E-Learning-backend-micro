@@ -12,15 +12,19 @@ public class Question {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int questionId;
 
-    public String getType() {
-        return type;
-    }
 
-    public void setType(String type) {
-        this.type = type;
-    }
+  @Enumerated(EnumType.STRING)
+  private type type;
 
-    public String getQuestionText() {
+  public tn.esprit.pidev.Entity.type getType() {
+    return type;
+  }
+
+  public void setType(tn.esprit.pidev.Entity.type type) {
+    this.type = type;
+  }
+
+  public String getQuestionText() {
         return questionText;
     }
 
@@ -37,6 +41,6 @@ public class Question {
     }
 
     private String questionText;
-    private String type;
+
 
 }

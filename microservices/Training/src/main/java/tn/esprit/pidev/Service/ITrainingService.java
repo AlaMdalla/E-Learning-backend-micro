@@ -9,4 +9,5 @@ public interface ITrainingService
     Training getTrainingById(int idTraining);
     Training saveTraining(Training training);
     void deleteTraining(int idTraining);
+
 }

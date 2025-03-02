@@ -35,14 +35,13 @@ public class EvaluationController {
         }
     }
 
-    // ADD Evaluation
     // http://localhost:8089/e-learning/evaluation/add
     @PostMapping("/add")
     public ResponseEntity<Evaluation> addEvaluation(@RequestBody Evaluation evaluation) {
         return new ResponseEntity<>(evaluationService.addEvaluation(evaluation), HttpStatus.CREATED);
     }
 
-    // UPDATE Evaluation
+
     // http://localhost:8089/e-learning/evaluation/update/idEvaluation
     @PutMapping("/update/{idEvaluation}")
     public ResponseEntity<Evaluation> updateEvaluation(@PathVariable("idEvaluation") int idEvaluation, @RequestBody Evaluation evaluation) {

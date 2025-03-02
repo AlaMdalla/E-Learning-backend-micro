@@ -14,7 +14,6 @@ public class EvaluationServiceImp implements IEvaluationService{
         this.evaluationRepository = evaluationRepository;
     }
 
-
     @Override
     public Evaluation addEvaluation(Evaluation evaluation) {
         return evaluationRepository.save(evaluation);
@@ -40,4 +39,9 @@ public class EvaluationServiceImp implements IEvaluationService{
     public List<Evaluation> getAllEvaluations() {
         return evaluationRepository.findAll();
     }
+
+
+  public void deleteEvaluationsByTrainingId(int trainingId) {
+    evaluationRepository.deleteByTrainingId(trainingId);
+  }
 }

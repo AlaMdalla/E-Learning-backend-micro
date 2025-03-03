@@ -13,8 +13,7 @@ public class Candidate {
 
     private String email;
     private String phone;
-
-        @Column(columnDefinition = "MEDIUMTEXT")
+    @Column(columnDefinition = "MEDIUMTEXT")
     private String resumeUrl;
 
     private Date applicationDate;

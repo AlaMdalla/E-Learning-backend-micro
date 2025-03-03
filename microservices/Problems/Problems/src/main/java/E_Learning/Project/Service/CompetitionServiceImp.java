@@ -67,6 +67,9 @@ public class CompetitionServiceImp implements CompetitionService{
             existingCompetition.setTitle(updatedCompetition.getTitle());
         }
 
+        existingCompetition.setImage(updatedCompetition.getImage());
+
+
         if (updatedCompetition.getDescription() != null) {
             existingCompetition.setDescription(updatedCompetition.getDescription());
         }
@@ -87,11 +90,11 @@ public class CompetitionServiceImp implements CompetitionService{
     public CompetitionDto addProblemToCompetition(Integer idProb,Integer idComp){
         Competition competition= this.competitionRepository.findById(idComp).get();
         Problem problem =this.problemRepository.findById(idProb).get();
-       List<Problem> problems= competition.getProblems();
-       problems.add(problem);
-       competition.setProblems(problems);
-       this.competitionRepository.save(competition);
-       return competitionMapper.toDto(competition);
+        List<Problem> problems= competition.getProblems();
+        problems.add(problem);
+        competition.setProblems(problems);
+        this.competitionRepository.save(competition);
+        return competitionMapper.toDto(competition);
 
 
     }

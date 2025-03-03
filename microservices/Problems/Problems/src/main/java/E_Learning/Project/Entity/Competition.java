@@ -24,6 +24,17 @@ public class Competition {
     @OneToMany
     private List<Problem> problems;
 
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    @Column(columnDefinition = "MEDIUMTEXT")
+    private String image;
+
     public List<String> getPrices() {
         return prices;
     }

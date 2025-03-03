@@ -10,4 +10,9 @@ public interface PostService {
 
     Post getPostById(Long postId);
     void deletePost(Long postId);
+    void reactPost(Long postId, String reactionType);
+    Post updatePost(Long postId, Post updatedPost);
+
+
+    Post getPostByIdAndUpdating(Long postId);
 }

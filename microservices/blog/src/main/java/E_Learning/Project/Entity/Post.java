@@ -13,10 +13,72 @@ import java.util.List;
 @Entity
 @Data
 public class Post {
-        @Id
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
     private Long id;
+
+
+    private String title;
+
+    private String category;
+
+    private String content;
+
+    private String postedBy;
+
+    @Lob // Annotation pour indiquer que c'est un type large, comme un BLOB
+    private byte[] img;
+
+
+    private Date date;
+
+    private int likeCount = 0;
+    private int laught = 0;  // Ajouté pour "laugh"
+    private int angry = 0;   // Ajouté pour "angry"
+    private int viewCount = 0;
+
+
+    public int getLaught() {
+        return laught;
+    }
+
+    public void setLaught(int laught) {
+        this.laught = laught;
+    }
+
+    public int getAngry() {
+        return angry;
+    }
+
+    public void setAngry(int angry) {
+        this.angry = angry;
+    }
+
+    @Lob
+    @Column(name = "picByte", columnDefinition = "LONGBLOB")
+    private byte[] picByte;
+    @Column(name = "name")
+    private String name;
+
+    @Column(name = "type")
+    private String type;
+    public Post(){}
+    public Post(Long id, String title,String category, String content, String postedBy, byte[] img, Date date, int viewCount, int likeCount, byte[] picByte, String name, String type, List<Comment> comments) {
+        this.id = id;
+        this.title = title;
+        this.category = category;
+        this.content = content;
+        this.postedBy = postedBy;
+        this.img = img;
+        this.date = date;
+        this.viewCount = viewCount;
+        this.likeCount = likeCount;
+        this.picByte = picByte;
+        this.name = name;
+        this.type = type;
+        this.comments = comments;
+    }
 
     public Long getId() {
         return id;
@@ -33,6 +95,14 @@ public class Post {
     public void setTitle(String title) {
         this.title = title;
     }
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
 
     public String getContent() {
         return content;
@@ -50,11 +120,11 @@ public class Post {
         this.postedBy = postedBy;
     }
 
-    public String getImg() {
+    public byte[] getImg() {
         return img;
     }
 
-    public void setImg(String img) {
+    public void setImg(byte[] img) {
         this.img = img;
     }
 
@@ -82,6 +152,30 @@ public class Post {
         this.likeCount = likeCount;
     }
 
+    public byte[] getPicByte() {
+        return picByte;
+    }
+
+    public void setPicByte(byte[] picByte) {
+        this.picByte = picByte;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
     public List<Comment> getComments() {
         return comments;
     }
@@ -90,25 +184,23 @@ public class Post {
         this.comments = comments;
     }
 
-    private String title;
+    public Post(String name, String type, byte[] picByte) {
+        this.name = name;
+        this.type = type;
+        this.picByte = picByte;
+    }
 
-        private String content;
-
-        private String postedBy;
-
-        private String img;
-
-
-        private Date date;
-
-        private int viewCount;
-
-        private int likeCount;
 
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<Comment> comments;
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<Reclamation> reclamations;
+
+
 
 
 

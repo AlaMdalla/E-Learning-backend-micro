@@ -28,6 +28,7 @@ public class GetwayApplication {
 
 				.route("training",r->r.path("/e-learning/trainings/**").uri("lb://TRAINING"))
 				.route("question",r->r.path("/question/**").uri("lb://TRAINING"))
+				.route("users",r->r.path("/Users/**").uri("lb://USERSMANAGEMENTSYSTEM"))
 
 				.build();
 

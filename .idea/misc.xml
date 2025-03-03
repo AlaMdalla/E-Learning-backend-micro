@@ -13,7 +13,13 @@
         <option value="$PROJECT_DIR$/microservices/Training/pom.xml" />
         <option value="$PROJECT_DIR$/microservices/job/pom.xml" />
         <option value="$PROJECT_DIR$/microservices/users/pom.xml" />
+        <option value="$PROJECT_DIR$/microservices/E-Learning-backend-jobs/pom.xml" />
       </list>
+    </option>
+    <option name="ignoredFiles">
+      <set>
+        <option value="$PROJECT_DIR$/microservices/job/pom.xml" />
+      </set>
     </option>
   </component>
   <component name="PWA">

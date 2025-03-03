@@ -31,6 +31,7 @@ public class Problem {
     private String difficulty;
     private String mainClass;
 
+
     @OneToMany(mappedBy = "problem" , cascade = CascadeType.ALL)
 
     private  List<Submition> submitions;

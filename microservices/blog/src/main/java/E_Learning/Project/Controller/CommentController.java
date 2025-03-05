@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/blog/")
+
 public class CommentController {
     @Autowired
     private CommentService commentService;
@@ -15,20 +16,35 @@ public class CommentController {
     @PostMapping("comments/create")
     public ResponseEntity<?> createComment(@RequestParam Long postId,
                                            @RequestParam String postedBy,
-                                           @RequestParam String content){
-        try{
+                                           @RequestParam String content) {
+        try {
             return ResponseEntity.ok(commentService.createComment(postId, postedBy, content));
-        }catch (Exception e){
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(e.getMessage());
         }
     }
+
     @GetMapping("comments/{postId}")
-    public ResponseEntity<?> getCommentByPostId(@PathVariable Long postId){
-        try{
+    public ResponseEntity<?> getCommentByPostId(@PathVariable Long postId) {
+        try {
             return ResponseEntity.ok(commentService.getCommentByPostId(postId));
-        }catch (Exception e ){
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Something Wrong");
         }
     }
 
+    @PostMapping("comments/reply")
+    public ResponseEntity<?> replyToComment(@RequestParam Long parentCommentId,
+                                            @RequestParam String postedBy,
+                                            @RequestParam String content) {
+        try {
+            return ResponseEntity.ok(commentService.replyToComment(parentCommentId, postedBy, content));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(e.getMessage());
+        }
+    }
 }

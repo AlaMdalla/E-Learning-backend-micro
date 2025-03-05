@@ -8,7 +8,10 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/blog/")
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/Training
 public class CommentController {
     @Autowired
     private CommentService commentService;

@@ -23,6 +23,10 @@ public class Evaluation {
     private Date createdAt;
     private boolean certificat;
 
+    @OneToMany(mappedBy = "evaluation", cascade = CascadeType.ALL)
+    private Set<QuestionReponse> questions;
+
+
     public int getIdEvaluation() {
         return idEvaluation;
     }
@@ -87,14 +91,18 @@ public class Evaluation {
         this.certificat = certificat;
     }
 
-    public Set<Question> getQuestions() {
+    public Evaluation(Set<QuestionReponse> questions) {
+        this.questions = questions;
+    }
+
+    public Set<QuestionReponse> getQuestions() {
         return questions;
     }
 
-    public void setQuestions(Set<Question> questions) {
-        questions = questions;
+    public void setQuestions(Set<QuestionReponse> questions) {
+        this.questions = questions;
     }
 
-    @OneToMany(cascade = CascadeType.ALL)
-    private Set<Question> questions;
+
+
 }

@@ -19,6 +19,7 @@ public class PostController {
     @Autowired
     private PostService postService;
 
+<<<<<<< HEAD
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> createPost(@RequestParam("title") String title,
                                         @RequestParam("content") String content,
@@ -31,6 +32,20 @@ public class PostController {
             post.setContent(content);
             post.setPostedBy(postedBy);
             post.setCategory(category);
+=======
+    @PostMapping
+    public ResponseEntity<?> createPost(@RequestBody Post post){
+        try{
+            Post createdPost= postService.savePost(post);
+            return ResponseEntity.status(HttpStatus.CREATED).body(createdPost);
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+    @GetMapping
+    public ResponseEntity<List<Post>> getAllposts(){
+        try{
+>>>>>>> origin/Training
 
             if (file != null && !file.isEmpty()) {
                 String base64Image = Base64.getEncoder().encodeToString(file.getBytes());

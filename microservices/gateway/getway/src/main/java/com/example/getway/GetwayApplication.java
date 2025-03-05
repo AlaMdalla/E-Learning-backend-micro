@@ -25,7 +25,10 @@ public class GetwayApplication {
 				.route("submition",r->r.path("/submitions/**").uri("lb://SERVICEPROBLEMS"))
 				.route("blog",r->r.path("/blog/**").uri("lb://BLOG"))
 				.route("job",r->r.path("/job/**").uri("lb://JOB"))
+<<<<<<< HEAD
 				.route("Subscription",r->r.path("/Subscription/**").uri("lb://Subscription"))
+=======
+>>>>>>> origin/Training
 
 
 				.route("training",r->r.path("/e-learning/trainings/**").uri("lb://TRAINING"))

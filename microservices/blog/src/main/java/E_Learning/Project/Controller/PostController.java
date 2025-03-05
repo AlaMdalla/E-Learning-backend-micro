@@ -12,12 +12,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/blog/posts")
-@CrossOrigin(origins = "*")
 public class PostController {
     @Autowired
     private PostService postService;
 
-    @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping
     public ResponseEntity<?> createPost(@RequestBody Post post){
         try{

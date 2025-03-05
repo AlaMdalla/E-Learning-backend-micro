@@ -13,4 +13,6 @@ public interface CompetitionService {
     public CompetitionDto addProblemToCompetition(Integer idProb,Integer idComp);
     public Competition getCompetition( Integer id);
         public String deleteCompetition( Integer id);
+    public Competition updateCompetition(Integer id,Competition c);
+
 }

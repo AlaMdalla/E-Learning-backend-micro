@@ -1,21 +1,13 @@
 package tn.esprit.pidev.Entity;
 
-import jakarta.persistence.*;
-
-import java.util.List;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
 @Entity
 public class Utilisateur {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long idUtilisateur;
-  private String email;
-
-  private String nom;
-
-  private String prenom;
-
-  private String motDePasse;
-  private String role;
-}
+  private Long idUtilisateur;}

@@ -14,6 +14,8 @@ import E_Learning.Project.Repository.ProblemRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+
 @Service
 public class CompetitionServiceImp implements CompetitionService{
     public CompetitionServiceImp(CompetitionRepository competitionRepository,ProblemRepository problemRepository) {
@@ -46,17 +48,53 @@ public class CompetitionServiceImp implements CompetitionService{
 
     @Override
     public String deleteCompetition(Integer id) {
-        return "";
+        this.competitionRepository.delete(this.competitionRepository.findById(id).get());
+        return "deleted";
     }
+
+    @Override
+    public Competition updateCompetition(Integer id, Competition updatedCompetition) {
+        Optional<Competition> optionalCompetition = competitionRepository.findById(id);
+
+        if (optionalCompetition.isEmpty()) {
+            throw new RuntimeException("Competition not found with ID: " + id);
+        }
+
+        Competition existingCompetition = optionalCompetition.get();
+
+        // Update fields only if provided (avoiding null values)
+        if (updatedCompetition.getTitle() != null) {
+            existingCompetition.setTitle(updatedCompetition.getTitle());
+        }
+
+        existingCompetition.setImage(updatedCompetition.getImage());
+
+
+        if (updatedCompetition.getDescription() != null) {
+            existingCompetition.setDescription(updatedCompetition.getDescription());
+        }
+
+        if (updatedCompetition.getPrices() != null) {
+            existingCompetition.setPrices(updatedCompetition.getPrices());
+        }
+
+        if (updatedCompetition.getProblems() != null) {
+            existingCompetition.setProblems(updatedCompetition.getProblems());
+        }
+
+        return competitionRepository.save(existingCompetition);
+    }
+
+
     @Override
     public CompetitionDto addProblemToCompetition(Integer idProb,Integer idComp){
         Competition competition= this.competitionRepository.findById(idComp).get();
         Problem problem =this.problemRepository.findById(idProb).get();
-       List<Problem> problems= competition.getProblems();
-       problems.add(problem);
-       competition.setProblems(problems);
-       this.competitionRepository.save(competition);
-       return competitionMapper.toDto(competition);
+        List<Problem> problems= competition.getProblems();
+        problems.add(problem);
+        competition.setProblems(problems);
+        this.competitionRepository.save(competition);
+        return competitionMapper.toDto(competition);
 
 
     }

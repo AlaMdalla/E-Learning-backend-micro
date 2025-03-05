@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/blog/")
-@CrossOrigin
 public class CommentController {
     @Autowired
     private CommentService commentService;

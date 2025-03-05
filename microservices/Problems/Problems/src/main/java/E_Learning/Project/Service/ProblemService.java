@@ -10,5 +10,6 @@ public interface ProblemService {
     public List<Problem> getProblems();
     public Problem getProblem( Integer id);
     public String deleteProblem( Integer id);
+    public Problem updateProblem(Integer id,Problem p);
 
 }

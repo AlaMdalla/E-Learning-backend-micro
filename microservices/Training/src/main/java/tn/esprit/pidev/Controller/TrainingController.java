@@ -12,7 +12,7 @@ import java.util.List;
 @RestController
 
 //@CrossOrigin(origins = "http://localhost:4200")
-@RequestMapping("/trainings")
+    @RequestMapping("/trainings")
 public class TrainingController {
         private final TrainingServiceImp trainingServiceImp;
   private final EvaluationServiceImp evaluationServiceImp;
@@ -22,7 +22,7 @@ public class TrainingController {
     this.evaluationServiceImp = evaluationServiceImp;
   }
 
-        @GetMapping("/retrieve-all-trainings")
+        @GetMapping("/")
         public List<Training> getAllTrainings() {
             return trainingServiceImp.getAllTrainings();
         }

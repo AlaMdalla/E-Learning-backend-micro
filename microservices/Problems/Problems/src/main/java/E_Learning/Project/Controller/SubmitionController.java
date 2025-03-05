@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/submitions")
 public class SubmitionController {
     private SubmitionService submitionService;
@@ -27,14 +26,13 @@ public class SubmitionController {
     private ProblemService problemService;
 
 
-    @CrossOrigin(origins = "http://localhost:4200")
 
     @PostMapping("/submit/{problemId}")
     public ResponseEntity<?> submitProblem(@RequestBody String code, @PathVariable Integer problemId) {
         Submition submition =new Submition();
         Problem problem = this.submitionService.submitProblem(submition,problemId);
         String mainClass = problem.getMainClass();
-        CodeRunner codeRunner = new CodeRunner(fileReaderService, codeCompiler, testCaseExecutor);
+        CodeRunner codeRunner = new CodeRunner(fileReaderService, codeCompiler, testCaseExecutor,problem.getLinkTotestcases());
         codeRunner.run(mainClass,code);
         try {
             List<Submition> submissions = problem.getSubmitions();

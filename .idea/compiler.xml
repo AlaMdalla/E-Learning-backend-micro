@@ -11,7 +11,7 @@
         <module name="candidat" />
         <module name="eureka-server" />
       </profile>
-      <profile name="Annotation profile for pidevfinal" enabled="true">
+      <profile name="Annotation profile for subscription" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
@@ -21,6 +21,7 @@
         <module name="Project" />
         <module name="pidevfinal" />
         <module name="Project (1)" />
+        <module name="subscription" />
         <module name="pidev" />
       </profile>
     </annotationProcessing>
@@ -34,6 +35,7 @@
       <module name="getway" options="-parameters" />
       <module name="pidev" options="-parameters" />
       <module name="pidevfinal" options="-parameters" />
+      <module name="subscription" options="-parameters" />
       <module name="usersmanagementsystem" options="-parameters" />
     </option>
   </component>

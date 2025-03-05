@@ -20,6 +20,7 @@
         <module name="Project" />
         <module name="pidevfinal" />
         <module name="Project (1)" />
+        <module name="Project (2)" />
         <module name="pidev" />
       </profile>
     </annotationProcessing>
@@ -28,6 +29,7 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="Project" options="-parameters" />
       <module name="Project (1)" options="-parameters" />
+      <module name="Project (2)" options="-parameters" />
       <module name="candidat" options="-parameters" />
       <module name="eureka-server" options="-parameters" />
       <module name="getway" options="-parameters" />

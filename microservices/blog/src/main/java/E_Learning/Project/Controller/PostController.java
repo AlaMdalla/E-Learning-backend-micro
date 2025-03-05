@@ -1,8 +1,6 @@
 package E_Learning.Project.Controller;
 
-import E_Learning.Project.Entity.CompressionUtil;
 import E_Learning.Project.Entity.Post;
-import E_Learning.Project.Repository.PostRepository;
 import E_Learning.Project.Service.PostService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,149 +10,89 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
+import java.util.Base64;
 import java.util.List;
-import java.util.zip.DataFormatException;
-import java.util.zip.Inflater;
 
 @RestController
 @RequestMapping("/blog/posts")
-
-
 public class PostController {
     @Autowired
     private PostService postService;
-    @Autowired
-    private PostRepository postRepository;
 
-    public Post img;
-
-    @PostMapping("/upload")
-    public ResponseEntity<?> uploadImage(@RequestParam("imageFile") MultipartFile file) throws IOException {
-        if (file.isEmpty()) {
-            System.out.println("⚠️ Aucun fichier reçu !");
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Fichier vide !");
-        }
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<?> createPost(@RequestParam("title") String title,
+                                        @RequestParam("content") String content,
+                                        @RequestParam("postedBy") String postedBy,
+                                        @RequestParam("category") String category,
+                                        @RequestParam(value = "imageFile", required = false) MultipartFile file) {
         try {
-            Post img = new Post(file.getOriginalFilename(), file.getContentType(),
-                    compressBytes(file.getBytes())); // Vérifie la méthode compressBytes ici
-            this.postRepository.save(img);
-            return ResponseEntity.ok("Image bien enregistrée !");
-        } catch (Exception e) {
-            System.out.println("Erreur lors de l'upload de l'image : " + e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erreur interne du serveur");
-        }
-    }
+            Post post = new Post();
+            post.setTitle(title);
+            post.setContent(content);
+            post.setPostedBy(postedBy);
+            post.setCategory(category);
 
-    public static byte[] decompressBytes(byte[] data) {
-        Inflater inflater = new Inflater();
-        inflater.setInput(data);
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream(data.length);
-        byte[] buffer = new byte[1024];
-        try {
-            while (!inflater.finished()) {
-                int count = inflater.inflate(buffer);
-                outputStream.write(buffer, 0, count);
+            if (file != null && !file.isEmpty()) {
+                String base64Image = Base64.getEncoder().encodeToString(file.getBytes());
+                post.setImg(base64Image);
+               
+            } else {
+                System.out.println("No image file provided");
             }
-            outputStream.close();
-        } catch (IOException ioe) {
-        } catch (DataFormatException e) {
-        }
-        return outputStream.toByteArray();
-    }
-    private byte[] compressBytes(byte[] bytes) {
-        try {
-
-            return CompressionUtil.compress(bytes);
-        } catch (IOException e) {
-            throw new RuntimeException("Error compressing image", e);
-        }
-    }
-
-    @PostMapping
-    public ResponseEntity<?> createPost(@ModelAttribute Post post, @RequestParam("imageFile") MultipartFile file) {
-        try {
-            // Compress the image before setting it in the post
-            post.setPicByte(compressBytes(file.getBytes())); // Compress the image bytes
-            post.setName(file.getOriginalFilename()); // Set the original file name
-            post.setType(file.getContentType()); // Set the MIME type of the image
-
-            // Save the post with the compressed image
             Post createdPost = postService.savePost(post);
             return ResponseEntity.status(HttpStatus.CREATED).body(createdPost);
         } catch (Exception e) {
-            // Handle any exceptions that may occur
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Erreur lors de la création : " + e.getMessage());
         }
     }
+
     @PutMapping(value = "/{postId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> updatePost(@PathVariable Long postId,
                                         @RequestParam(value = "imageFile", required = false) MultipartFile file,
                                         @RequestParam("title") String title,
                                         @RequestParam("content") String content,
-                                        @RequestParam("postedBy") String postebBy,
+                                        @RequestParam("postedBy") String postedBy,
                                         @RequestParam("category") String category) {
         try {
-            // Récupérer le post sans modifier viewCount
             Post existingPost = postService.getPostByIdAndUpdating(postId);
-
-            // Mettre à jour les champs
             existingPost.setTitle(title);
             existingPost.setContent(content);
-            existingPost.setPostedBy(postebBy);
+            existingPost.setPostedBy(postedBy);
             existingPost.setCategory(category);
 
-            // Mettre à jour l'image si une nouvelle est fournie
             if (file != null && !file.isEmpty()) {
-                existingPost.setPicByte(compressBytes(file.getBytes()));
-                existingPost.setName(file.getOriginalFilename());
-                existingPost.setType(file.getContentType());
+                String base64Image = Base64.getEncoder().encodeToString(file.getBytes());
+                existingPost.setImg(base64Image);
+              
             }
 
-            // Sauvegarder le post mis à jour
             Post savedPost = postService.updatePost(postId, existingPost);
             return ResponseEntity.ok(savedPost);
-
         } catch (EntityNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Post non trouvé : " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("Post non trouvé : " + e.getMessage());
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erreur lors de la mise à jour.");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Erreur lors de la mise à jour : " + e.getMessage());
         }
     }
-
-
-    @GetMapping("/{id}/image")
-    public ResponseEntity<byte[]> getPostImage(@PathVariable Long id) {
-        try {
-            Post post = postService.getPostById(id);
-            byte[] image = decompressBytes(post.getPicByte());
-            return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(image);
-        } catch (Exception e) {
-            return ResponseEntity.notFound().build();
-        }
-    }
-
 
     @GetMapping
-    public ResponseEntity<List<Post>> getAllposts(){
-        try{
-            List<Post> posts = postService.getAllPosts();
-            posts.forEach(p -> p.setPicByte(decompressBytes(p.getPicByte())));
-
-            return ResponseEntity.status(HttpStatus.OK).body(posts);
-        }catch (Exception e){
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
+    public ResponseEntity<List<Post>> getAllPosts() {
+        List<Post> posts = postService.getAllPosts();
+        posts.forEach(post -> {
+           
+        });
+       
+        return ResponseEntity.ok(posts);
     }
-
-
 
     @GetMapping("/{postId}")
     public ResponseEntity<?> getPostById(@PathVariable Long postId) {
         try {
             Post post = postService.getPostById(postId);
-            post.setPicByte(decompressBytes(post.getPicByte())); // Correction ici
+
             return ResponseEntity.ok(post);
         } catch (EntityNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
@@ -178,5 +116,4 @@ public class PostController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
-
 }

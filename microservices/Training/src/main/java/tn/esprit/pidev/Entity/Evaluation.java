@@ -1,10 +1,14 @@
 package tn.esprit.pidev.Entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.deser.std.StringDeserializer;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 @Entity
 @AllArgsConstructor
@@ -14,6 +18,8 @@ public class Evaluation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
      private int idEvaluation;
     @ManyToOne
+    @JoinColumn(name = "training_id")
+
     private Training training;
 
     private String description;
@@ -24,7 +30,11 @@ public class Evaluation {
     private boolean certificat;
 
     @OneToMany(mappedBy = "evaluation", cascade = CascadeType.ALL)
-    private Set<QuestionReponse> questions;
+    private List<QuestionReponse> questions;  // Removed @JsonDeserialize annotation
+
+
+    public Evaluation() {
+    }
 
 
     public int getIdEvaluation() {
@@ -91,15 +101,15 @@ public class Evaluation {
         this.certificat = certificat;
     }
 
-    public Evaluation(Set<QuestionReponse> questions) {
+    public Evaluation(List<QuestionReponse> questions) {
         this.questions = questions;
     }
 
-    public Set<QuestionReponse> getQuestions() {
+    public List<QuestionReponse> getQuestions() {
         return questions;
     }
 
-    public void setQuestions(Set<QuestionReponse> questions) {
+    public void setQuestions(List<QuestionReponse> questions) {
         this.questions = questions;
     }
 

@@ -50,10 +50,7 @@ public class UserManagementController {
     public ResponseEntity<ReqRes> updateUser(@PathVariable Integer userId, @RequestBody OurUsers reqres){
         return ResponseEntity.ok(usersManagementService.updateUser(userId, reqres));
     }
-<<<<<<< HEAD
 
-=======
->>>>>>> origin/Training
     @PutMapping("/update/{userId}")
     public ResponseEntity<ReqRes> updateOwnUser(@PathVariable Integer userId, @RequestBody OurUsers reqres){
         return ResponseEntity.ok(usersManagementService.updateUser(userId, reqres));

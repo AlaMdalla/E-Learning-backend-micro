@@ -38,7 +38,15 @@ public class EvaluationController {
     // http://localhost:8089/e-learning/evaluation/add
     @PostMapping("/add")
     public ResponseEntity<Evaluation> addEvaluation(@RequestBody Evaluation evaluation) {
-        return new ResponseEntity<>(evaluationService.addEvaluation(evaluation), HttpStatus.CREATED);
+        System.out.println("Received Evaluation: " + evaluation);
+        if (evaluation.getTraining() == null) {
+            System.out.println("❌ Training is NULL!");
+        } else {
+            System.out.println("✅ Training ID: " + evaluation.getTraining().getIdTraining());
+        }
+
+        Evaluation savedEvaluation = evaluationService.addEvaluation(evaluation);
+        return new ResponseEntity<>(savedEvaluation, HttpStatus.CREATED);
     }
 
 

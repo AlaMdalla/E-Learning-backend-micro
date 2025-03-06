@@ -1,20 +1,31 @@
 package com.example.pidevfinal.controller;
-
 import com.example.pidevfinal.DTO.CandidateRequest;
 import com.example.pidevfinal.DTO.CandidateResponse;
 import com.example.pidevfinal.services.CandidateService;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
 
 @RestController
 @RequestMapping("/api/candidates")
 public class CandidateController {
     private final CandidateService candidateService;
 
+    private static final String UPLOAD_DIR = "C:/pidev/attachments/";
+
     public CandidateController(CandidateService candidateService) {
         this.candidateService = candidateService;
+        System.out.println("CandidateController initialized");
     }
 
     @GetMapping
@@ -42,7 +53,7 @@ public class CandidateController {
             if (candidate == null || candidate.getResumeUrl() == null) {
                 return ResponseEntity.notFound().build();
             }
-            System.out.println("Fetching resume for candidate " + id + ", size: " + candidate.getResumeUrl().length());
+            System.out.println("Fetching resume for candidate " + id + ", URL: " + candidate.getResumeUrl());
             return ResponseEntity.ok(candidate.getResumeUrl());
         } catch (Exception e) {
             System.err.println("Error fetching resume for candidate " + id + ": " + e.getMessage());
@@ -55,6 +66,25 @@ public class CandidateController {
         System.out.println("Received request: " + request);
         candidateService.saveCandidate(request);
         return ResponseEntity.ok().build();
+    }
+
+    @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<String> uploadResume(@RequestParam("file") MultipartFile file) {
+        try {
+            if (file.isEmpty()) {
+                return ResponseEntity.badRequest().body("No file uploaded");
+            }
+            String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
+            File dest = new File(UPLOAD_DIR + fileName);
+            dest.getParentFile().mkdirs(); // Create directory if it doesn’t exist
+            file.transferTo(dest);
+            String fileUrl = "/attachments/" + fileName; // URL relative to static serving path
+            System.out.println("File uploaded: " + fileUrl);
+            return ResponseEntity.ok(fileUrl);
+        } catch (Exception e) {
+            System.err.println("Error uploading file: " + e.getMessage());
+            return ResponseEntity.status(500).body("Error uploading file: " + e.getMessage());
+        }
     }
 
     @DeleteMapping("/{id}")
@@ -72,5 +102,20 @@ public class CandidateController {
     @PutMapping("/{id}")
     public CandidateResponse updateCandidate(@PathVariable Long id, @RequestBody CandidateRequest candidateDetails) {
         return candidateService.updateCandidate(id, candidateDetails);
+    }
+    @GetMapping("/attachments/{fileName}")
+    public ResponseEntity<Resource> serveFile(@PathVariable String fileName) {
+        // Create the full file path
+        Path filePath = Paths.get(UPLOAD_DIR + fileName);
+        Resource resource = new FileSystemResource(filePath);
+
+        // Check if file exists
+
+
+        // Return the file as a response
+        return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileName + "\"")
+                .body(resource);
     }
 }

@@ -2,6 +2,7 @@ package tn.esprit.pidev.Entity;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -26,7 +27,9 @@ private int idTraining;
     private status status;
     @Enumerated(EnumType.STRING)
     private level level;
-    @OneToMany(mappedBy = "training")
+
+    @OneToMany(mappedBy = "training", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference // Forward serialization
     private List<Evaluation> evaluations;
 
     public int getIdTraining() {

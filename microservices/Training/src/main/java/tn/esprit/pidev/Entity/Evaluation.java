@@ -1,5 +1,6 @@
 package tn.esprit.pidev.Entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -8,12 +9,15 @@ import java.util.Date;
 import java.util.Set;
 @Entity
 @AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(force = true)
 public class Evaluation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
      private int idEvaluation;
+
     @ManyToOne
+    @JoinColumn(name = "training_id")
+    @JsonBackReference // Stops infinite recursion
     private Training training;
 
     private String description;
@@ -26,7 +30,20 @@ public class Evaluation {
     @OneToMany(mappedBy = "evaluation", cascade = CascadeType.ALL)
     private Set<QuestionReponse> questions;
 
+  public Evaluation(int idEvaluation, boolean certificat, Date createdAt, String description,
+                    String evaluation_duration, double score, String type, Training training) {
+    this.idEvaluation = idEvaluation;
+    this.certificat = certificat;
+    this.createdAt = createdAt;
+    this.description = description;
+    this.evaluation_duration = evaluation_duration;
+    this.score = score;
+    this.type = type;
+    this.training = training;
+  }
+  public Evaluation() {
 
+  }
     public int getIdEvaluation() {
         return idEvaluation;
     }

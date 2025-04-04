@@ -6,11 +6,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.pidev.Entity.Evaluation;
 import tn.esprit.pidev.Service.IEvaluationService;
+import tn.esprit.pidev.dto.EvaluationDTO;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/evaluation")
+@RequestMapping("/trainings/evaluation")
 public class EvaluationController {
 
     private final IEvaluationService evaluationService;
@@ -24,7 +25,7 @@ public class EvaluationController {
     public ResponseEntity<List<Evaluation>> getAllEvaluations() {
         return new ResponseEntity<>(evaluationService.getAllEvaluations(), HttpStatus.OK);
     }
-    // http://localhost:8089/e-learning/evaluation//retrieve/{idEvaluation}
+    // http://localhost:8089/e-learning/evaluation/retrieve/{idEvaluation}
     @GetMapping("/retrieve/{idEvaluation}")
     public ResponseEntity<Evaluation> getEvaluationById(@PathVariable("idEvaluation") int idEvaluation) {
         Evaluation evaluation = evaluationService.getEvaluationById(idEvaluation);
@@ -34,10 +35,14 @@ public class EvaluationController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
-
+  // http://localhost:8089/e-learning/evaluation/{idTraining}
+  @GetMapping("/{idTraining}")
+  public ResponseEntity<EvaluationDTO> getEvaluationByTrainingId(@PathVariable("idTraining") int idTraining) {
+    return  new ResponseEntity<>(evaluationService.getEvaluationByTrainingId(idTraining), HttpStatus.CREATED);
+  }
     // http://localhost:8089/e-learning/evaluation/add
     @PostMapping("/add")
-    public ResponseEntity<Evaluation> addEvaluation(@RequestBody Evaluation evaluation) {
+    public ResponseEntity<Evaluation> addEvaluation(@RequestBody EvaluationDTO evaluation) {
         return new ResponseEntity<>(evaluationService.addEvaluation(evaluation), HttpStatus.CREATED);
     }
 

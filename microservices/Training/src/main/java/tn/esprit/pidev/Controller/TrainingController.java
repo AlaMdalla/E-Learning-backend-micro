@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import tn.esprit.pidev.Entity.Training;
 import tn.esprit.pidev.Service.EvaluationServiceImp;
 import tn.esprit.pidev.Service.TrainingServiceImp;
+import tn.esprit.pidev.dto.TrainingDTO;
 
 import java.util.List;
 
@@ -23,13 +24,13 @@ public class TrainingController {
   }
 
         @GetMapping("/")
-        public List<Training> getAllTrainings() {
+        public List<TrainingDTO> getAllTrainings() {
             return trainingServiceImp.getAllTrainings();
         }
 
         @GetMapping("/{idTraining}")
-        public Training getTrainingById(@PathVariable int idTraining) {
-            return trainingServiceImp.getTrainingById(idTraining);
+        public TrainingDTO getTrainingById(@PathVariable int idTraining) {
+            return new TrainingDTO(trainingServiceImp.getTrainingById(idTraining));
         }
 
     @PostMapping("/add-training")

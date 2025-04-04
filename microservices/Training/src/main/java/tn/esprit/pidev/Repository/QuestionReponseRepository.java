@@ -8,6 +8,9 @@ import java.util.List;
 
 public interface QuestionReponseRepository extends JpaRepository<QuestionReponse, Integer> {
 
-    @Query(value = "SELECT * FROM question_reponse WHERE id_evaluation = :idEvaluation ORDER BY RAND() LIMIT 5", nativeQuery = true)
-    List<QuestionReponse> getRandomQuestions(@Param("idEvaluation") int idEvaluation);
+  @Query(value = "SELECT * FROM question_reponse WHERE id_evaluation = :idEvaluation ORDER BY RAND() LIMIT :limit", nativeQuery = true)
+  List<QuestionReponse> getRandomQuestions(@Param("idEvaluation") int idEvaluation);
+
+
+ // List<QuestionReponse> findByEvaluationIdEvaluationOrderByRandomLimit(@Param("idEvaluation") int idEvaluation,int limit);
 }

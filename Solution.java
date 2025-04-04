@@ -1,22 +1,24 @@
 import java.util.*;
-public class Solution { public static int[] twoSum(int[] nums, int target) {
-            int[] returnsum =new int[2];
-            int n =nums.length;
-            Map<Integer,Integer> targetMap=new HashMap<>();
+public class Solution {
+    public static int[] twoSum(int[] var0, int var1) {
+        int[] var2 = new int[2];
+        int var3 = var0.length;
+        HashMap var4 = new HashMap();
 
-            for (int i=0;i<n;i++){
-                int targ0=target-nums[i];
-                if (targetMap.get(targ0)!=null)
-                {
-  returnsum[1]=i;
-                    int val=targetMap.get(targ0);
-                    returnsum[0]=targetMap.get(targ0);
-                    return returnsum;
-                }
-  targetMap.put(nums[i],i);
+        for(int var5 = 0; var5 < var3; ++var5) {
+            int var6 = var1 - var0[var5];
+            if (var4.get(var6) != null) {
+                var2[1] = var5;
+                int var7 = (Integer)var4.get(var6);
+                var2[0] = (Integer)var4.get(var6);
+                return var2;
             }
-return null;
-            }public static void main(String[] args) {
+
+            var4.put(var0[var5], var5);
+        }
+
+        return null;
+    }public static void main(String[] args) {
     int target = Integer.parseInt(args[1]);
     String[] strNumbers = args[0].split(" ");
     int[] nums = new int[strNumbers.length];

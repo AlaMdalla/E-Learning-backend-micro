@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -22,13 +23,16 @@ public class SubmitionServiceImp implements SubmitionService {
     }
 
     @Override
-    public Problem submitProblem(Submition submition ,int idProblem) {
+    public Problem submitProblem(Submition submition ,int userId,int idProblem) {
+        submition.setUserId(userId);
         Problem problem= problemRepository.findById(idProblem).get();
         List<Submition> submitions=problem.getSubmitions();
          String mainClass =problem.getMainClass();
         System.out.println(mainClass);
        if(problem!= null){
             submition.setProblem(problem);
+           submition.setSubmittedAt(LocalDateTime.now());
+
            submitions.add(submition);
            problemRepository.save(problem);
             submitionRepository.save(submition);

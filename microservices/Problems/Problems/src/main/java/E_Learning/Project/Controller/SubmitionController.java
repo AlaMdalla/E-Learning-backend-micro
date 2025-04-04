@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -27,10 +28,10 @@ public class SubmitionController {
 
 
 
-    @PostMapping("/submit/{problemId}")
-    public ResponseEntity<?> submitProblem(@RequestBody String code, @PathVariable Integer problemId) {
+    @PostMapping("/submit/{userId}/{problemId}")
+    public ResponseEntity<?> submitProblem(@RequestBody String code,@PathVariable Integer userId, @PathVariable Integer problemId) {
         Submition submition =new Submition();
-        Problem problem = this.submitionService.submitProblem(submition,problemId);
+        Problem problem = this.submitionService.submitProblem(submition,userId,problemId);
         String mainClass = problem.getMainClass();
         CodeRunner codeRunner = new CodeRunner(fileReaderService, codeCompiler, testCaseExecutor,problem.getLinkTotestcases());
         codeRunner.run(mainClass,code);
@@ -62,5 +63,12 @@ if(codeRunner.result.equals("✅ All test cases passed!")){
     List<Submition> getSubmitions(){
         return this.submitionService.getSubmitions();    }
 
+    @GetMapping("/{userId}")
+    List<Submition> getSubmitionsByUser(@PathVariable Integer userId){
+        return this.submitionService.getSubmitions().stream().filter(submition -> submition.getUserId()==userId).toList();    }
 
-    }
+    @GetMapping("getProblemTitle/{submitId}")
+    String getProblemTitle(@PathVariable Integer submitId){
+        return this.submitionService.getSubmitions().stream().filter(submition -> submition.getId()==submitId)
+                .map(submition -> submition.getProblem().getTitle()).findAny().get(); }
+}

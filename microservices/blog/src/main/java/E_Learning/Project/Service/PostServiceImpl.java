@@ -6,13 +6,12 @@ import E_Learning.Project.Repository.PostRepository;
 import E_Learning.Project.Repository.PostInteractionRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class PostServiceImpl implements PostService {
@@ -21,8 +20,85 @@ public class PostServiceImpl implements PostService {
 
     @Autowired
     private PostInteractionRepository postInteractionRepository;
+    private final RestTemplate restTemplate = new RestTemplate();
+    private final String apiKey = "AIzaSyCZ5SdI-SOUauldOzb5h48u1YIklPvJAoc";
+    public double analyzeToxicity(String content) {
+        String url = "https://commentanalyzer.googleapis.com/v1alpha1/comments:analyze?key=" + apiKey;
+
+        Map<String, Object> request = new HashMap<>();
+        Map<String, String> comment = new HashMap<>();
+        comment.put("text", content);
+        request.put("comment", comment);
+        request.put("languages", List.of("en")); // Adjust language as needed
+        request.put("requestedAttributes", Map.of("TOXICITY", new HashMap<>()));
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<Map<String, Object>> entity = new HttpEntity<>(request, headers);
+
+        try {
+            ResponseEntity<Map> response = restTemplate.postForEntity(url, entity, Map.class);
+            if (response.getStatusCode() != HttpStatus.OK) {
+                throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
+                        "Failed to analyze toxicity: API returned status " + response.getStatusCode());
+            }
+
+            Map data = response.getBody();
+            if (data == null) {
+                throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
+                        "Failed to analyze toxicity: Empty response from API");
+            }
+
+            Map attributeScores = (Map) data.get("attributeScores");
+            if (attributeScores == null) {
+                throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
+                        "Failed to analyze toxicity: Missing attributeScores in response");
+            }
+
+            Map toxicity = (Map) attributeScores.get("TOXICITY");
+            if (toxicity == null) {
+                throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
+                        "Failed to analyze toxicity: Missing TOXICITY in response");
+            }
+
+            Map summaryScore = (Map) toxicity.get("summaryScore");
+            if (summaryScore == null) {
+                throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
+                        "Failed to analyze toxicity: Missing summaryScore in response");
+            }
+
+            Object value = summaryScore.get("value");
+            if (value == null || !(value instanceof Number)) {
+                throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
+                        "Failed to analyze toxicity: Invalid toxicity score in response");
+            }
+
+            return ((Number) value).doubleValue(); // Returns a score between 0.0 and 1.0
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
+                    "Failed to analyze toxicity: " + e.getMessage(), e);
+        }
+    }
 
     public Post savePost(Integer userId, Post post) {
+        String content = post.getContent();
+        if (content != null && !content.isEmpty()) {
+            try {
+                double toxicityScore = analyzeToxicity(content);
+                if (toxicityScore > 0.5) {
+                    throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                            "Le contenu est trop toxique (score : " + toxicityScore + ") et ne peut pas être publié");
+                }
+            } catch (ResponseStatusException e) {
+                if (e.getStatusCode() == HttpStatus.INTERNAL_SERVER_ERROR) {
+                    // Log the error and allow the post to be saved with a warning
+                    System.err.println("Toxicity analysis failed: " + e.getMessage());
+                    // Optionally, you could flag the post for manual review
+                } else {
+                    throw e; // Re-throw other errors (e.g., toxic content)
+                }
+            }
+        }
         post.setUserId(userId);
         post.setLikeCount(0);
         post.setLaught(0);
@@ -31,7 +107,6 @@ public class PostServiceImpl implements PostService {
         post.setDate(new Date());
         return postRepository.save(post);
     }
-
     public List<Post> getAllPosts() {
         return postRepository.findAll();
     }
@@ -152,6 +227,15 @@ public class PostServiceImpl implements PostService {
         // Check if user is authorized to update
         if (!existingPost.getUserId().equals(userId)) {
             throw new SecurityException("User not authorized to update this post");
+        }
+
+        // Check toxicity if the content is being updated
+        if (updatedPost.getContent() != null && !updatedPost.getContent().isEmpty()) {
+            double toxicityScore = analyzeToxicity(updatedPost.getContent());
+            if (toxicityScore > 0.5) { // Threshold set to 0.5
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                        "Le contenu mis à jour est trop toxique (score : " + toxicityScore + ") et ne peut pas être publié");
+            }
         }
 
         // Mise à jour des champs uniquement si non null

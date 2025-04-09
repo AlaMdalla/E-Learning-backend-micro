@@ -19,7 +19,6 @@ public class Comment {
     private Long id;
 
     private String content;
-    private String postedBy;
     private Date createdAt;
 
     @ManyToOne
@@ -41,8 +40,6 @@ public class Comment {
     public void setId(Long id) { this.id = id; }
     public String getContent() { return content; }
     public void setContent(String content) { this.content = content; }
-    public String getPostedBy() { return postedBy; }
-    public void setPostedBy(String postedBy) { this.postedBy = postedBy; }
     public Date getCreatedAt() { return createdAt; }
     public void setCreatedAt(Date createdAt) { this.createdAt = createdAt; }
     public Post getPost() { return post; }

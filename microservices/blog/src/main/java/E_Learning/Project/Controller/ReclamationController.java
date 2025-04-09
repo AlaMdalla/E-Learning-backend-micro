@@ -16,12 +16,12 @@ public class ReclamationController {
     private ReclamationService reclamationService;
 
     @PostMapping("reclamations/create")
-    public ResponseEntity<?> createReclamation(@RequestParam Long postId,
-                                               @RequestParam String reason,
-                                               @RequestParam String email,
-                                               @RequestParam String name) {
+    public ResponseEntity<?> createReclamation(
+            @RequestHeader("User-Id") Integer userId, // Added userId from header
+            @RequestParam Long postId,
+            @RequestParam String reason) {
         try {
-            return ResponseEntity.ok(reclamationService.createReclamation(postId, reason, email, name));
+            return ResponseEntity.ok(reclamationService.createReclamation(postId, userId, reason));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(e.getMessage());
         }

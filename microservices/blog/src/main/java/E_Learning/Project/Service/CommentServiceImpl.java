@@ -22,7 +22,7 @@ public class CommentServiceImpl implements CommentService {
     @Autowired
     private PostRepository postRepository;
 
-    public Comment createComment(Long postId, String postedBy, String content) {
+    public Comment createComment(Long postId, String content) {
         Optional<Post> optionalPost = postRepository.findById(postId);
         if (optionalPost.isPresent()) {
             // Check for bad words
@@ -33,7 +33,7 @@ public class CommentServiceImpl implements CommentService {
             Comment comment = new Comment();
             comment.setPost(optionalPost.get());
             comment.setContent(content); // Content is clean, no censoring in this case
-            comment.setPostedBy(postedBy);
+
             comment.setCreatedAt(new Date());
 
             return commentRepository.save(comment);
@@ -41,7 +41,7 @@ public class CommentServiceImpl implements CommentService {
         throw new EntityNotFoundException("Post Not Found");
     }
 
-    public Comment replyToComment(Long parentCommentId, String postedBy, String content) {
+    public Comment replyToComment(Long parentCommentId, String content) {
         Optional<Comment> optionalParentComment = commentRepository.findById(parentCommentId);
         if (optionalParentComment.isPresent()) {
             // Check for bad words
@@ -54,7 +54,6 @@ public class CommentServiceImpl implements CommentService {
             reply.setParentComment(parentComment);
             reply.setPost(parentComment.getPost());
             reply.setContent(content); // Content is clean
-            reply.setPostedBy(postedBy);
             reply.setCreatedAt(new Date());
 
             Comment savedReply = commentRepository.save(reply);

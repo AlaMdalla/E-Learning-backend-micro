@@ -7,11 +7,10 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="getway" />
-        <module name="usersmanagementsystem" />
         <module name="candidat" />
         <module name="eureka-server" />
       </profile>
-      <profile name="Annotation profile for pidevfinal" enabled="true">
+      <profile name="Annotation profile for Project" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
@@ -24,12 +23,26 @@
         <module name="subscription" />
         <module name="pidev" />
       </profile>
+      <profile name="Annotation profile for Project (2)" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.36/lombok-1.18.36.jar" />
+        </processorPath>
+        <module name="Project (2)" />
+      </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="usersmanagementsystem" target="17" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="Project" options="-parameters" />
       <module name="Project (1)" options="-parameters" />
+      <module name="Project (2)" options="-parameters" />
+      <module name="Project (3)" options="-parameters" />
       <module name="candidat" options="-parameters" />
       <module name="eureka-server" options="-parameters" />
       <module name="getway" options="-parameters" />

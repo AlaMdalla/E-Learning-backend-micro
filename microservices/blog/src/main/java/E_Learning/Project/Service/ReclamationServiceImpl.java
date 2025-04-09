@@ -21,14 +21,13 @@ public class ReclamationServiceImpl implements ReclamationService {
     private PostRepository postRepository;
 
     @Override
-    public Reclamation createReclamation(Long postId, String reason, String email, String name) {
+    public Reclamation createReclamation(Long postId, Integer userId, String reason) {
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new EntityNotFoundException("Post not found"));
         Reclamation reclamation = new Reclamation();
         reclamation.setPost(post);
+        reclamation.setUserId(userId); // Set the userId
         reclamation.setReason(reason);
-        reclamation.setEmail(email);
-        reclamation.setName(name);
         return reclamationRepository.save(reclamation);
     }
 
@@ -49,8 +48,7 @@ public class ReclamationServiceImpl implements ReclamationService {
         Reclamation reclamation = reclamationRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Reclamation not found with id: " + id));
         reclamation.setReason(reclamationDetails.getReason());
-        reclamation.setEmail(reclamationDetails.getEmail());
-        reclamation.setName(reclamationDetails.getName());
+        // Removed setEmail since the email field no longer exists
         return reclamationRepository.save(reclamation);
     }
 

@@ -15,10 +15,9 @@ public class CommentController {
 
     @PostMapping("comments/create")
     public ResponseEntity<?> createComment(@RequestParam Long postId,
-                                           @RequestParam String postedBy,
                                            @RequestParam String content) {
         try {
-            return ResponseEntity.ok(commentService.createComment(postId, postedBy, content));
+            return ResponseEntity.ok(commentService.createComment(postId, content));
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         } catch (Exception e) {
@@ -37,10 +36,9 @@ public class CommentController {
 
     @PostMapping("comments/reply")
     public ResponseEntity<?> replyToComment(@RequestParam Long parentCommentId,
-                                            @RequestParam String postedBy,
                                             @RequestParam String content) {
         try {
-            return ResponseEntity.ok(commentService.replyToComment(parentCommentId, postedBy, content));
+            return ResponseEntity.ok(commentService.replyToComment(parentCommentId, content));
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         } catch (Exception e) {

@@ -13,8 +13,17 @@ public class Reclamation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String reason;
-    private String email;
-    private String name;
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
+    private Integer userId;
+
+
     @Column(nullable = false, updatable = false) // Ensure it’s stored and not updated
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
@@ -57,21 +66,7 @@ public class Reclamation {
         this.reason = reason;
     }
 
-    public String getEmail() {
-        return email;
-    }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public Post getPost() {
         return post;

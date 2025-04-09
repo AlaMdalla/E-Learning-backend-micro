@@ -19,27 +19,27 @@ public class PostController {
     @Autowired
     private PostService postService;
 
-    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<?> createPost(@RequestParam("title") String title,
-                                        @RequestParam("content") String content,
-                                        @RequestParam("postedBy") String postedBy,
-                                        @RequestParam("category") String category,
-                                        @RequestParam(value = "imageFile", required = false) MultipartFile file) {
+    @PostMapping(value = "/create/{User-Id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<?> createPost(
+            @PathVariable("User-Id") Integer userId,
+            @RequestParam("title") String title,
+            @RequestParam("content") String content,
+            @RequestParam("category") String category,
+            @RequestParam(value = "imageFile", required = false) MultipartFile file) {
         try {
             Post post = new Post();
             post.setTitle(title);
             post.setContent(content);
-            post.setPostedBy(postedBy);
             post.setCategory(category);
 
             if (file != null && !file.isEmpty()) {
                 String base64Image = Base64.getEncoder().encodeToString(file.getBytes());
                 post.setImg(base64Image);
-
             } else {
                 System.out.println("No image file provided");
             }
-            Post createdPost = postService.savePost(post);
+
+            Post createdPost = postService.savePost(userId, post);
             return ResponseEntity.status(HttpStatus.CREATED).body(createdPost);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -48,30 +48,32 @@ public class PostController {
     }
 
     @PutMapping(value = "/{postId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<?> updatePost(@PathVariable Long postId,
-                                        @RequestParam(value = "imageFile", required = false) MultipartFile file,
-                                        @RequestParam("title") String title,
-                                        @RequestParam("content") String content,
-                                        @RequestParam("postedBy") String postedBy,
-                                        @RequestParam("category") String category) {
+    public ResponseEntity<?> updatePost(
+            @RequestHeader("User-Id") Integer userId,
+            @PathVariable Long postId,
+            @RequestParam(value = "imageFile", required = false) MultipartFile file,
+            @RequestParam("title") String title,
+            @RequestParam("content") String content,
+            @RequestParam("category") String category) {
         try {
-            Post existingPost = postService.getPostByIdAndUpdating(postId);
-            existingPost.setTitle(title);
-            existingPost.setContent(content);
-            existingPost.setPostedBy(postedBy);
-            existingPost.setCategory(category);
+            Post updatedPost = new Post();
+            updatedPost.setTitle(title);
+            updatedPost.setContent(content);
+            updatedPost.setCategory(category);
 
             if (file != null && !file.isEmpty()) {
                 String base64Image = Base64.getEncoder().encodeToString(file.getBytes());
-                existingPost.setImg(base64Image);
-
+                updatedPost.setImg(base64Image);
             }
 
-            Post savedPost = postService.updatePost(postId, existingPost);
+            Post savedPost = postService.updatePost(userId, postId, updatedPost);
             return ResponseEntity.ok(savedPost);
         } catch (EntityNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body("Post non trouvé : " + e.getMessage());
+        } catch (SecurityException e) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                    .body("Non autorisé : " + e.getMessage());
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Erreur lors de la mise à jour : " + e.getMessage());
@@ -81,38 +83,65 @@ public class PostController {
     @GetMapping
     public ResponseEntity<List<Post>> getAllPosts() {
         List<Post> posts = postService.getAllPosts();
-        posts.forEach(post -> {
-
-        });
-
         return ResponseEntity.ok(posts);
     }
 
     @GetMapping("/{postId}")
-    public ResponseEntity<?> getPostById(@PathVariable Long postId) {
+    public ResponseEntity<?> getPostById(
+            @RequestHeader("User-Id") Integer userId,
+            @PathVariable Long postId) {
         try {
-            Post post = postService.getPostById(postId);
-
+            Post post = postService.getPostById(userId, postId);
             return ResponseEntity.ok(post);
         } catch (EntityNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (SecurityException e) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                    .body("Non autorisé : " + e.getMessage());
         }
     }
 
     @DeleteMapping("/{postId}")
-    public ResponseEntity<Void> deletePost(@PathVariable Long postId) {
-        postService.deletePost(postId);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<Void> deletePost(
+            @RequestHeader("User-Id") Integer userId,
+            @PathVariable Long postId) {
+        try {
+            postService.deletePost(userId, postId);
+            return ResponseEntity.noContent().build();
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        } catch (SecurityException e) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+    }
+
+    @PutMapping("/{postId}/view")
+    public ResponseEntity<?> viewPost(
+            @RequestHeader("User-Id") Integer userId,
+            @PathVariable Long postId) {
+        try {
+            postService.viewPost(userId, postId);
+            return ResponseEntity.ok(new String[]{"Post view recorded successfully"});
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (IllegalStateException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 
     @PutMapping("/{postId}/react")
-    public ResponseEntity<?> reactPost(@PathVariable Long postId, @RequestParam String reaction) {
+    public ResponseEntity<?> reactPost(
+            @RequestHeader("User-Id") Integer userId,
+            @PathVariable Long postId,
+            @RequestParam String reaction) {
         try {
-            postService.reactPost(postId, reaction);
+            postService.reactPost(userId, postId, reaction);
             return ResponseEntity.ok(new String[]{"Post reacted successfully with " + reaction});
         } catch (EntityNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        } catch (IllegalStateException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }

@@ -1,6 +1,5 @@
 package com.phegondev.usersmanagementsystem.entity;
 
-
 import jakarta.persistence.*;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
@@ -20,6 +19,9 @@ public class OurUsers implements UserDetails {
     private Integer id;
     private String email;
     private String name;
+    private String password;
+    private String city;
+    private String role;
 
     public Integer getId() {
         return id;
@@ -45,7 +47,6 @@ public class OurUsers implements UserDetails {
         this.name = name;
     }
 
-    @Override
     public String getPassword() {
         return password;
     }
@@ -69,10 +70,6 @@ public class OurUsers implements UserDetails {
     public void setRole(String role) {
         this.role = role;
     }
-
-    private String password;
-    private String city;
-    private String role;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

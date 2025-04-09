@@ -37,10 +37,13 @@ public class EvaluationController {
     }
   // http://localhost:8089/e-learning/evaluation/{idTraining}
   @GetMapping("/{idTraining}")
-  public ResponseEntity<EvaluationDTO> getEvaluationByTrainingId(@PathVariable("idTraining") int idTraining) {
-    return  new ResponseEntity<>(evaluationService.getEvaluationByTrainingId(idTraining), HttpStatus.CREATED);
+  public ResponseEntity<List<EvaluationDTO>> getEvaluationsByTrainingId(@PathVariable("idTraining") int idTraining) {
+    List<EvaluationDTO> evaluations = evaluationService.getEvaluationsByTrainingId(idTraining);
+    System.out.println("Évaluations envoyées au frontend : " + evaluations);
+    return new ResponseEntity<>(evaluations, HttpStatus.OK);
   }
-    // http://localhost:8089/e-learning/evaluation/add
+
+  // http://localhost:8089/e-learning/evaluation/add
     @PostMapping("/add")
     public ResponseEntity<Evaluation> addEvaluation(@RequestBody EvaluationDTO evaluation) {
         return new ResponseEntity<>(evaluationService.addEvaluation(evaluation), HttpStatus.CREATED);

@@ -14,6 +14,7 @@ import tn.esprit.pidev.dto.QuestionReponseDTO;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class EvaluationServiceImp implements IEvaluationService{
@@ -67,18 +68,28 @@ public class EvaluationServiceImp implements IEvaluationService{
     public Evaluation getEvaluationById(int idEvaluation) {
         return evaluationRepository.findById(idEvaluation).orElse(null);
     }
-  @Override
-  public EvaluationDTO getEvaluationByTrainingId(int idTraining) {
-    Training training = trainingRepository.findById(idTraining).orElse(null);
-    if (training == null || training.getEvaluations().isEmpty()) {
-      return null;
-    }
-    return new EvaluationDTO(training.getEvaluations().get(0));
-  }
+
+
+  //  @Override
+//  public EvaluationDTO getEvaluationByTrainingId(int idTraining) {
+//    Training training = trainingRepository.findById(idTraining).orElse(null);
+//    if (training == null || training.getEvaluations().isEmpty()) {
+//      return null;
+//    }
+//    return new EvaluationDTO(training.getEvaluations().get(0));
+//  }
     @Override
     public List<Evaluation> getAllEvaluations() {
         return evaluationRepository.findAll();
     }
+
+  @Override
+  public List<EvaluationDTO> getEvaluationsByTrainingId(int idTraining) {
+    List<Evaluation> evaluations = evaluationRepository.findByTraining_IdTraining(idTraining);
+    return evaluations.stream()
+      .map(EvaluationDTO::new)
+      .collect(Collectors.toList());
+  }
 
 
   public void deleteEvaluationsByTrainingId(int trainingId) {

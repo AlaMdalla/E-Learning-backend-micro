@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import tn.esprit.pidev.Entity.Evaluation;
 
+import java.util.List;
+
 public interface EvaluationRepository extends JpaRepository<Evaluation, Integer> {
   @Transactional
   @Modifying
@@ -19,4 +21,7 @@ public interface EvaluationRepository extends JpaRepository<Evaluation, Integer>
   @Transactional
   @Query("SELECT e FROM Evaluation e WHERE e.training.idTraining = :trainingId")
   Evaluation getEvaluationByTrainingId(@Param("trainingId") int trainingId);
+
+
+  List<Evaluation> findByTraining_IdTraining(int idTraining);
 }

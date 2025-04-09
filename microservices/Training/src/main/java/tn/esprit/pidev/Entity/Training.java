@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -30,7 +31,7 @@ private int idTraining;
 
     @OneToMany(mappedBy = "training", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonManagedReference // Forward serialization
-    private List<Evaluation> evaluations;
+    private List<Evaluation> evaluations = new ArrayList<>();
 
     public int getIdTraining() {
         return idTraining;

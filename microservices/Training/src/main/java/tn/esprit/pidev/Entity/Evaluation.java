@@ -9,15 +9,16 @@ import java.util.Date;
 import java.util.Set;
 @Entity
 @AllArgsConstructor
-@NoArgsConstructor(force = true)
+
 public class Evaluation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
      private int idEvaluation;
 
     @ManyToOne
-    @JoinColumn(name = "training_id")
+
     @JsonBackReference // Stops infinite recursion
+    @JoinColumn(name = "training_id", referencedColumnName = "idTraining")
     private Training training;
 
     private String description;

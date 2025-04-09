@@ -31,12 +31,13 @@ public class TrainingServiceImp implements ITrainingService
 
     }
 
-    @Override
-    public Training getTrainingById(int idTraining) {
-        return trainingRepository.findById(idTraining).orElse(null);
-    }
+  @Override
+  public Training getTrainingById(int idTraining) {
+    return trainingRepository.findById(idTraining)
+      .orElseThrow(() -> new RuntimeException("Training avec l'ID " + idTraining + " est introuvable."));
+  }
 
-    @Override
+  @Override
     public Training saveTraining(Training training) {
         return trainingRepository.save(training);
     }

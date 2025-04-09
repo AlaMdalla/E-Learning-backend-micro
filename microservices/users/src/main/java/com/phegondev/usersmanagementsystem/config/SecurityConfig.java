@@ -43,7 +43,9 @@ public class SecurityConfig {
                         .requestMatchers("/auth/register").permitAll()
 
                         .requestMatchers("/adminuser/**").hasAnyAuthority("ADMIN", "USER")
-                        .requestMatchers("/auth/register").permitAll() // Allow public registration
+                        .requestMatchers("/auth/register").permitAll()
+                        .requestMatchers("/auth/forgot-password").permitAll()
+                        .requestMatchers("/auth/reset-password").permitAll()// Allow public registration
                         .anyRequest().authenticated())
                 .sessionManagement(manager->manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider()).addFilterBefore(

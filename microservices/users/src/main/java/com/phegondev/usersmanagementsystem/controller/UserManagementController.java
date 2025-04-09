@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 public class UserManagementController {
     @Autowired
@@ -67,6 +67,17 @@ public class UserManagementController {
     public ResponseEntity<ReqRes> deleteUSer(@PathVariable Integer userId){
         return ResponseEntity.ok(usersManagementService.deleteUser(userId));
     }
+
+    @PostMapping("/auth/forgot-password")
+    public ResponseEntity<ReqRes> forgotPassword(@RequestBody ReqRes request) {
+        return ResponseEntity.ok(usersManagementService.forgotPassword(request));
+    }
+
+    @PostMapping("/auth/reset-password")
+    public ResponseEntity<ReqRes> resetPassword(@RequestBody ReqRes request) {
+        return ResponseEntity.ok(usersManagementService.resetPassword(request));
+    }
+
 
 
 }

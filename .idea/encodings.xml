@@ -12,6 +12,9 @@
     <file url="file://$PROJECT_DIR$/microservices/job/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/microservices/subscription/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/microservices/users/src/main/java" charset="UTF-8" />
+<<<<<<< HEAD
     <file url="file://$PROJECT_DIR$/microservices/websocket-project-backend/src/main/java" charset="UTF-8" />
+=======
+>>>>>>> 4729e87dcbaa403d121388ce801cf78054c376ce
   </component>
 </project>

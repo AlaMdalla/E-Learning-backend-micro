@@ -2,7 +2,10 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <annotationProcessing>
+<<<<<<< HEAD
       <profile default="true" name="Default" enabled="true" />
+=======
+>>>>>>> 4729e87dcbaa403d121388ce801cf78054c376ce
       <profile name="Maven default annotation processors profile" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
@@ -11,6 +14,7 @@
         <module name="usersmanagementsystem" />
         <module name="candidat" />
         <module name="eureka-server" />
+<<<<<<< HEAD
         <module name="websocket-project" />
       </profile>
       <profile name="Annotation profile for subscription" enabled="true">
@@ -23,6 +27,10 @@
         <module name="subscription" />
       </profile>
       <profile name="Annotation profile for Project" enabled="true">
+=======
+      </profile>
+      <profile name="Annotation profile for pidevfinal" enabled="true">
+>>>>>>> 4729e87dcbaa403d121388ce801cf78054c376ce
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
@@ -30,9 +38,15 @@
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/unknown/lombok-unknown.jar" />
         </processorPath>
         <module name="Project" />
+<<<<<<< HEAD
         <module name="Project (1)" />
         <module name="pidevfinal" />
         <module name="Project (2)" />
+=======
+        <module name="pidevfinal" />
+        <module name="Project (1)" />
+        <module name="subscription" />
+>>>>>>> 4729e87dcbaa403d121388ce801cf78054c376ce
         <module name="pidev" />
       </profile>
     </annotationProcessing>
@@ -41,7 +55,10 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="Project" options="-parameters" />
       <module name="Project (1)" options="-parameters" />
+<<<<<<< HEAD
       <module name="Project (2)" options="-parameters" />
+=======
+>>>>>>> 4729e87dcbaa403d121388ce801cf78054c376ce
       <module name="candidat" options="-parameters" />
       <module name="eureka-server" options="-parameters" />
       <module name="getway" options="-parameters" />
@@ -49,7 +66,10 @@
       <module name="pidevfinal" options="-parameters" />
       <module name="subscription" options="-parameters" />
       <module name="usersmanagementsystem" options="-parameters" />
+<<<<<<< HEAD
       <module name="websocket-project" options="-parameters" />
+=======
+>>>>>>> 4729e87dcbaa403d121388ce801cf78054c376ce
     </option>
   </component>
 </project>

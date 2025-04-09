@@ -26,8 +26,11 @@ public class GetwayApplication {
 				.route("blog",r->r.path("/blog/**").uri("lb://BLOG"))
 				.route("job",r->r.path("/job/**").uri("lb://JOB"))
 				.route("Subscription",r->r.path("/Subscription/**").uri("lb://Subscription"))
+<<<<<<< HEAD
 				.route("chat",r->r.path("/chat/**").uri("lb:/Chat"))
 
+=======
+>>>>>>> 4729e87dcbaa403d121388ce801cf78054c376ce
 
 
 				.route("training",r->r.path("/e-learning/**").uri("lb://TRAINING"))

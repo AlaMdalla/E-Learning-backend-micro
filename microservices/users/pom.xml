@@ -37,9 +37,15 @@
 			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
 		</dependency>
 		<dependency>
+<<<<<<< HEAD
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<version>8.0.33</version>
+=======
+			<groupId>com.mysql</groupId>
+			<artifactId>mysql-connector-j</artifactId>
+			<scope>runtime</scope>
+>>>>>>> 4729e87dcbaa403d121388ce801cf78054c376ce
 		</dependency>
 		<dependency>
 			<groupId>org.projectlombok</groupId>

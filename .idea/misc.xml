@@ -16,7 +16,10 @@
         <option value="$PROJECT_DIR$/microservices/E-Learning-backend-jobs/pom.xml" />
         <option value="$PROJECT_DIR$/microservices/subscription/pom.xml" />
         <option value="$PROJECT_DIR$/microservices/E-Learning-backend-jobs/E-Learning-backend-jobs/pom.xml" />
+<<<<<<< HEAD
         <option value="$PROJECT_DIR$/microservices/websocket-project-backend/pom.xml" />
+=======
+>>>>>>> 4729e87dcbaa403d121388ce801cf78054c376ce
       </list>
     </option>
     <option name="ignoredFiles">
@@ -30,7 +33,11 @@
     <option name="enabled" value="true" />
     <option name="wasEnabledAtLeastOnce" value="true" />
   </component>
+<<<<<<< HEAD
   <component name="ProjectRootManager" version="2" languageLevel="JDK_22" default="true" project-jdk-name="openjdk-23" project-jdk-type="JavaSDK">
+=======
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_23" default="true" project-jdk-name="openjdk-23" project-jdk-type="JavaSDK">
+>>>>>>> 4729e87dcbaa403d121388ce801cf78054c376ce
     <output url="file://$PROJECT_DIR$/out" />
   </component>
 </project>

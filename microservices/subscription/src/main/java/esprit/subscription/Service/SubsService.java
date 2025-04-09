@@ -5,8 +5,11 @@ import esprit.subscription.dao.SubsDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+<<<<<<< HEAD
 import java.time.LocalDateTime;
 import java.util.Arrays;
+=======
+>>>>>>> 4729e87dcbaa403d121388ce801cf78054c376ce
 import java.util.List;
 import java.util.Optional;
 
@@ -16,6 +19,7 @@ public class SubsService {
     @Autowired
     private SubsDao subsDao;
 
+<<<<<<< HEAD
     private static final List<String> VALID_TYPES = Arrays.asList("1 month", "3 months", "6 months", "1 year");
 
     // Define subscription type hierarchy (higher index = higher tier)
@@ -51,10 +55,19 @@ public class SubsService {
         }
     }
 
+=======
+    // Create (Add a new Subscription)
+    public Subs addNewSubs(Subs subs) {
+        return subsDao.save(subs);
+    }
+
+    // Read (Get all subscriptions)
+>>>>>>> 4729e87dcbaa403d121388ce801cf78054c376ce
     public List<Subs> getAllSubs() {
         return subsDao.findAll();
     }
 
+<<<<<<< HEAD
     public Subs getSubsById(Integer id) {
         Optional<Subs> subs = subsDao.findById(id);
         return subs.orElse(null);
@@ -69,20 +82,40 @@ public class SubsService {
             if (!VALID_TYPES.contains(newSubsData.getTypesub())) {
                 throw new IllegalArgumentException("Invalid subscription type. Must be '1 month', '3 months', '6 months', or '1 year'.");
             }
+=======
+    // Read (Get a subscription by ID)
+    public Subs getSubsById(Integer id) {
+        Optional<Subs> subs = subsDao.findById(id);
+        return subs.orElse(null); // Return null if not found, or handle differently
+    }
+
+    // Update (Modify an existing subscription)
+    public Subs updateSubs(Integer id, Subs newSubsData) {
+        return subsDao.findById(id).map(existingSubs -> {
+>>>>>>> 4729e87dcbaa403d121388ce801cf78054c376ce
             existingSubs.setTypesub(newSubsData.getTypesub());
             existingSubs.setSubsDescription(newSubsData.getSubsDescription());
             existingSubs.setSubsDiscountedPrice(newSubsData.getSubsDiscountedPrice());
             existingSubs.setSubsActualPrice(newSubsData.getSubsActualPrice());
+<<<<<<< HEAD
             existingSubs.setEndDate(calculateEndDate(newSubsData.getTypesub()));
             return subsDao.save(existingSubs);
         }).orElse(null);
     }
 
+=======
+            return subsDao.save(existingSubs);
+        }).orElse(null); // Handle not found case properly in your controller
+    }
+
+    // Delete (Remove a subscription by ID)
+>>>>>>> 4729e87dcbaa403d121388ce801cf78054c376ce
     public boolean deleteSubs(Integer id) {
         if (subsDao.existsById(id)) {
             subsDao.deleteById(id);
             return true;
         }
+<<<<<<< HEAD
         return false;
     }
 
@@ -93,3 +126,8 @@ public class SubsService {
         return newIndex > existingIndex;
     }
 }
+=======
+        return false; // Handle not found case properly in your controller
+    }
+}
+>>>>>>> 4729e87dcbaa403d121388ce801cf78054c376ce

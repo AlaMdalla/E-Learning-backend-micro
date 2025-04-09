@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-
 @Entity
 @Data
 public class Comment {
@@ -21,6 +20,8 @@ public class Comment {
     private String content;
     private Date createdAt;
 
+    private Long userId; // New field to store the user ID
+
     @ManyToOne
     @JoinColumn(name = "post_id", nullable = false)
     @JsonBackReference
@@ -29,19 +30,21 @@ public class Comment {
     @ManyToOne
     @JoinColumn(name = "parent_comment_id")
     @JsonBackReference("parent-comment")
-    private Comment parentComment; // Reference to the parent comment for replies
+    private Comment parentComment;
 
     @OneToMany(mappedBy = "parentComment", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference("parent-comment")
-    private List<Comment> replies = new ArrayList<>(); // List of replies to this comment
+    private List<Comment> replies = new ArrayList<>();
 
-    // Getters and setters (already provided, but included for completeness)
+    // Getters and setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     public String getContent() { return content; }
     public void setContent(String content) { this.content = content; }
     public Date getCreatedAt() { return createdAt; }
     public void setCreatedAt(Date createdAt) { this.createdAt = createdAt; }
+    public Long getUserId() { return userId; }
+    public void setUserId(Long userId) { this.userId = userId; }
     public Post getPost() { return post; }
     public void setPost(Post post) { this.post = post; }
     public Comment getParentComment() { return parentComment; }

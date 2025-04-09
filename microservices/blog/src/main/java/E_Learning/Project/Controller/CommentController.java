@@ -8,16 +8,18 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/blog/")
-
 public class CommentController {
+
     @Autowired
     private CommentService commentService;
 
     @PostMapping("comments/create")
-    public ResponseEntity<?> createComment(@RequestParam Long postId,
-                                           @RequestParam String content) {
+    public ResponseEntity<?> createComment(
+            @RequestParam Long postId,
+            @RequestParam Long userId, // Add userId parameter
+            @RequestParam String content) {
         try {
-            return ResponseEntity.ok(commentService.createComment(postId, content));
+            return ResponseEntity.ok(commentService.createComment(postId, userId, content));
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         } catch (Exception e) {
@@ -35,10 +37,12 @@ public class CommentController {
     }
 
     @PostMapping("comments/reply")
-    public ResponseEntity<?> replyToComment(@RequestParam Long parentCommentId,
-                                            @RequestParam String content) {
+    public ResponseEntity<?> replyToComment(
+            @RequestParam Long parentCommentId,
+            @RequestParam Long userId, // Add userId parameter
+            @RequestParam String content) {
         try {
-            return ResponseEntity.ok(commentService.replyToComment(parentCommentId, content));
+            return ResponseEntity.ok(commentService.replyToComment(parentCommentId, userId, content));
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         } catch (Exception e) {

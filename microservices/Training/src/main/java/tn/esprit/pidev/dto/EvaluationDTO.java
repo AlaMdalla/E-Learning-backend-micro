@@ -1,6 +1,7 @@
 package tn.esprit.pidev.dto;
 
 import tn.esprit.pidev.Entity.Evaluation;
+import tn.esprit.pidev.Entity.Niveau;
 
 import java.util.Date;
 import java.util.Set;
@@ -16,7 +17,7 @@ public class EvaluationDTO {
   private boolean certificat;
   private int trainingId; // Store only the training ID to prevent recursion
   private Set<QuestionReponseDTO> questions; // Use DTO for questions
-
+  private Niveau niveau;
   // Constructor
   public EvaluationDTO(Evaluation evaluation) {
     this.idEvaluation = evaluation.getIdEvaluation();
@@ -27,7 +28,7 @@ public class EvaluationDTO {
     this.createdAt = evaluation.getCreatedAt();
     this.certificat = evaluation.isCertificat();
     this.trainingId = evaluation.getTraining().getIdTraining(); // Store only the ID
-
+    this.niveau = evaluation.getNiveau();
     // Convert QuestionReponse entities to DTOs (to avoid recursion)
     if (evaluation.getQuestions() != null) {
       this.questions = evaluation.getQuestions().stream()
@@ -40,13 +41,14 @@ public class EvaluationDTO {
 
   // ✅ Constructeur avec paramètres (si nécessaire)
   public EvaluationDTO(int trainingId, String description, String type, String evaluationDuration,
-                       double score, Set<QuestionReponseDTO> questions) {
+                       double score, Set<QuestionReponseDTO> questions, Niveau niveau) {
     this.trainingId = trainingId;
     this.description = description;
     this.type = type;
     this.evaluationDuration = evaluationDuration;
     this.score = score;
     this.questions = questions;
+
   }
 
   // Getters and Setters
@@ -120,5 +122,12 @@ public class EvaluationDTO {
 
   public void setQuestions(Set<QuestionReponseDTO> questions) {
     this.questions = questions;
+  }
+  public Niveau getNiveau() {
+    return niveau;
+  }
+
+  public void setNiveau(Niveau niveau) {
+    this.niveau = niveau;
   }
 }

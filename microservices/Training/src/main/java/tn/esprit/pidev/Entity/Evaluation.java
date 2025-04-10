@@ -21,7 +21,9 @@ public class Evaluation {
     @JoinColumn(name = "training_id", referencedColumnName = "idTraining")
     private Training training;
 
-    private String description;
+  @Enumerated(EnumType.STRING)
+  private Niveau niveau;
+  private String description;
     private String type;
     private String evaluation_duration;
     private double score;
@@ -121,6 +123,12 @@ public class Evaluation {
         this.questions = questions;
     }
 
+  public Niveau getNiveau() {
+    return niveau;
+  }
 
+  public void setNiveau(Niveau niveau) {
+    this.niveau = niveau;
+  }
 
 }

@@ -48,6 +48,7 @@ public class EvaluationServiceImp implements IEvaluationService{
             quest.setOptions(question.getOptions());
             quest.setEvaluation(evaluation);
             quest.setType(QuestionType.QCM);
+            evaluation.setNiveau(eval.getNiveau());
             questionReponseRepository.save(quest);
           }
         return evaluation;

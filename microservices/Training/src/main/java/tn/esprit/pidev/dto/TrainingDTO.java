@@ -18,7 +18,27 @@ public class TrainingDTO {
   private String level;
   private List<Integer> evaluationIds;
   private List<Long> subscriptionIds;
+  private boolean premium;
+  public boolean isPremium() {
+    return premium;
+  }
 
+  public void setPremium(boolean premium) {
+    this.premium = premium;
+  }
+
+  public TrainingDTO(int idTraining, String title, String content, Date trainingdate, String duration, String status, String level, List<Integer> evaluationIds, List<Long> subscriptionIds, boolean premium) {
+    this.idTraining = idTraining;
+    this.title = title;
+    this.content = content;
+    this.trainingdate = trainingdate;
+    this.duration = duration;
+    this.status = status;
+    this.level = level;
+    this.evaluationIds = evaluationIds;
+    this.subscriptionIds = subscriptionIds;
+    this.premium = premium;
+  }
 
   public TrainingDTO(Training training) {
     this.idTraining = training.getIdTraining();

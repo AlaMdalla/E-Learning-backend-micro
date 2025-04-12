@@ -12,7 +12,7 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-@AllArgsConstructor
+//@AllArgsConstructor
 @NoArgsConstructor
 public class Training
 {  @Id
@@ -28,8 +28,30 @@ private int idTraining;
     private status status;
     @Enumerated(EnumType.STRING)
     private level level;
+  private boolean premium;
 
-    @OneToMany(mappedBy = "training", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  public boolean isPremium() {
+    return premium;
+  }
+
+  public void setPremium(boolean premium) {
+    this.premium = premium;
+  }
+
+  public Training(int idTraining, String title, String content, Date trainingdate, String duration, tn.esprit.pidev.Entity.status status, tn.esprit.pidev.Entity.level level, boolean premium, List<Evaluation> evaluations, List<Subscription> subscriptions) {
+    this.idTraining = idTraining;
+    this.title = title;
+    this.content = content;
+    this.trainingdate = trainingdate;
+    this.duration = duration;
+    this.status = status;
+    this.level = level;
+    this.premium = premium;
+    this.evaluations = evaluations;
+    this.subscriptions = subscriptions;
+  }
+
+  @OneToMany(mappedBy = "training", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonManagedReference // Forward serialization
     private List<Evaluation> evaluations = new ArrayList<>();
 

@@ -48,6 +48,7 @@ private ProblemService problemService;
     Problem editProblem(@PathVariable Integer id,@RequestBody Problem p){
         return this.problemService.updateProblem(id,p);
     }
+<<<<<<< HEAD
     @GetMapping("passedProblems/{userid}")
     List<String> getPassedProblem(@PathVariable Integer userid){
         List<Problem> problems=this.problemService.getProblems();
@@ -66,5 +67,7 @@ private ProblemService problemService;
         // problems=   problems.stream().filter(problem -> problem.getSubmitions().stream().filter(submition -> submition.getUserId()==userid && submition.isPassed()).isParallel()).toList();
 
     }
+=======
+>>>>>>> origin/job
 
 }

@@ -12,16 +12,29 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/job
 @Service
 public class CandidateService {
     private final JobRepository jobRepository;
     private final CandidateRepository candidateRepository;
+<<<<<<< HEAD
 
     @Autowired
     public CandidateService(JobRepository jobRepository, CandidateRepository candidateRepository) {
         this.jobRepository = jobRepository;
         this.candidateRepository = candidateRepository;
+=======
+    private final EmailService emailService;
+
+    @Autowired
+    public CandidateService(JobRepository jobRepository, CandidateRepository candidateRepository, EmailService emailService) {
+        this.jobRepository = jobRepository;
+        this.candidateRepository = candidateRepository;
+        this.emailService = emailService;
+>>>>>>> origin/job
     }
 
     public List<CandidateResponse> getAllCandidates() {
@@ -55,6 +68,10 @@ public class CandidateService {
     }
 
     public CandidateResponse saveCandidate(CandidateRequest request) {
+<<<<<<< HEAD
+=======
+        System.out.println("Saving candidate: email=" + request.getEmail() + ", jobId=" + request.getJobId());
+>>>>>>> origin/job
         if (request.getJobId() == null) {
             throw new RuntimeException("Job ID is required to create a candidate.");
         }
@@ -67,10 +84,24 @@ public class CandidateService {
         candidate.setPhone(request.getPhone());
         candidate.setResumeUrl(request.getResumeUrl());
         candidate.setApplicationDate(request.getApplicationDate());
+<<<<<<< HEAD
         candidate.setStatus(request.getStatus());
         candidate.setJob(job);
 
         Candidate savedCandidate = candidateRepository.save(candidate);
+=======
+        candidate.setStatus("applied");
+        candidate.setJob(job);
+
+        Candidate savedCandidate = candidateRepository.save(candidate);
+        System.out.println("Candidate saved: ID=" + savedCandidate.getId());
+
+        emailService.sendApplicationEmail(
+                savedCandidate.getEmail(),
+                job.getTitle(),
+                savedCandidate.getStatus()
+        );
+>>>>>>> origin/job
 
         return new CandidateResponse(
                 savedCandidate.getId(),
@@ -89,9 +120,17 @@ public class CandidateService {
     }
 
     public CandidateResponse updateCandidate(Long id, CandidateRequest candidateDetails) {
+<<<<<<< HEAD
         Candidate candidate = candidateRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Candidate not found with ID: " + id));
 
+=======
+        System.out.println("Updating candidate: ID=" + id + ", new status=" + candidateDetails.getStatus());
+        Candidate candidate = candidateRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Candidate not found with ID: " + id));
+
+        String oldStatus = candidate.getStatus();
+>>>>>>> origin/job
         candidate.setEmail(candidateDetails.getEmail());
         candidate.setPhone(candidateDetails.getPhone());
         candidate.setResumeUrl(candidateDetails.getResumeUrl());
@@ -103,6 +142,19 @@ public class CandidateService {
         candidate.setJob(job);
 
         Candidate updatedCandidate = candidateRepository.save(candidate);
+<<<<<<< HEAD
+=======
+        System.out.println("Candidate updated: ID=" + updatedCandidate.getId());
+
+        String newStatus = updatedCandidate.getStatus();
+        if (newStatus != null && !newStatus.equalsIgnoreCase(oldStatus)) {
+            emailService.sendApplicationEmail(
+                    updatedCandidate.getEmail(),
+                    job.getTitle(),
+                    newStatus
+            );
+        }
+>>>>>>> origin/job
 
         return new CandidateResponse(
                 updatedCandidate.getId(),

@@ -8,14 +8,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-<<<<<<< HEAD
         registry.addResourceHandler("/attachments/**")
                 .addResourceLocations("file:///C:/pidev/attachments/");
-=======
-        System.out.println("WebConfig: Mapping /attachments/** to file:/C:/pidev/attachments/");
-        registry.addResourceHandler("/attachments/**")
-                .addResourceLocations("file:/C:/pidev/attachments/")
-                .setCachePeriod(0);
->>>>>>> origin/job
     }
 }

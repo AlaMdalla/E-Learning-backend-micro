@@ -1,19 +1,12 @@
 package E_Learning.Project.Entity;
 
-<<<<<<< HEAD
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
-=======
-import E_Learning.Project.DTO.ProblemDto;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
->>>>>>> origin/job
 
 @Entity
 public class Submition {
 
-<<<<<<< HEAD
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
@@ -93,12 +86,6 @@ public class Submition {
     public void setId(Integer id) {
         this.id = id;
     }
-=======
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private  Integer id;
->>>>>>> origin/job
 
     public boolean isPassed() {
         return passed;
@@ -108,7 +95,6 @@ public class Submition {
         this.passed = passed;
     }
 
-<<<<<<< HEAD
     public Integer getUserId() {
         return userId;
     }
@@ -123,14 +109,6 @@ public class Submition {
 
     public void setproblemIdent(Integer problemIdent) {
         this.problemIdent = problemIdent;
-=======
-    private boolean passed  ;
-    @JsonIgnore
-    @ManyToOne
-    private  Problem problem;
-    public Submition(/* parameters */) {
-        // Initialization
->>>>>>> origin/job
     }
 
     public Problem getProblem() {
@@ -141,7 +119,6 @@ public class Submition {
         this.problem = problem;
     }
 
-<<<<<<< HEAD
     public LocalDateTime getSubmittedAt() {
         return submittedAt;
     }
@@ -149,46 +126,4 @@ public class Submition {
     public void setSubmittedAt(LocalDateTime submittedAt) {
         this.submittedAt = submittedAt;
     }
-=======
-
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-
-
-
-    public Submition(Builder builder) {
-        this.id = builder.id;
-        this.passed = builder.passed;
-        this.problem = builder.problem;
-    }
-    public static class Builder {
-        private  Integer id;
-        private boolean passed  ;
-        private  Problem problem;
-        public Builder id(Integer id) {
-            this.id = id;
-            return this;
-        }
-        public Builder code(boolean passed) {
-            this.passed = passed;
-            return this;
-        }
-        public Builder problem(Problem problem) {
-            this.problem = problem;
-            return this;
-        }
-        public Submition build() {
-            return new Submition(this);
-        }
-
-    }
-
->>>>>>> origin/job
 }

@@ -11,7 +11,7 @@
         <module name="candidat" />
         <module name="eureka-server" />
       </profile>
-      <profile name="Annotation profile for subscription" enabled="true">
+      <profile name="Annotation profile for pidevfinal" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
@@ -19,8 +19,8 @@
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/unknown/lombok-unknown.jar" />
         </processorPath>
         <module name="Project" />
-        <module name="Project (1)" />
         <module name="pidevfinal" />
+        <module name="Project (1)" />
         <module name="subscription" />
         <module name="Project (2)" />
         <module name="pidev" />
@@ -39,7 +39,7 @@
       <module name="eureka-server" options="-parameters" />
       <module name="getway" options="-parameters" />
       <module name="pidev" options="-parameters" />
-      <module name="pidevfinal" options="" />
+      <module name="pidevfinal" options="-parameters" />
       <module name="subscription" options="-parameters" />
       <module name="usersmanagementsystem" options="-parameters" />
     </option>

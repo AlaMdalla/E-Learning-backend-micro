@@ -6,7 +6,6 @@ import java.util.Date;
 
 
 @Entity
-@Data
 public class Candidate {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

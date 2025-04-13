@@ -8,10 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-<<<<<<< HEAD
 import java.time.LocalDateTime;
-=======
->>>>>>> origin/job
 import java.util.List;
 
 @RestController
@@ -31,17 +28,10 @@ public class SubmitionController {
 
 
 
-<<<<<<< HEAD
     @PostMapping("/submit/{userId}/{problemId}")
     public ResponseEntity<?> submitProblem(@RequestBody String code,@PathVariable Integer userId, @PathVariable Integer problemId) {
         Submition submition =new Submition();
         Problem problem = this.submitionService.submitProblem(submition,userId,problemId);
-=======
-    @PostMapping("/submit/{problemId}")
-    public ResponseEntity<?> submitProblem(@RequestBody String code, @PathVariable Integer problemId) {
-        Submition submition =new Submition();
-        Problem problem = this.submitionService.submitProblem(submition,problemId);
->>>>>>> origin/job
         String mainClass = problem.getMainClass();
         CodeRunner codeRunner = new CodeRunner(fileReaderService, codeCompiler, testCaseExecutor,problem.getLinkTotestcases());
         codeRunner.run(mainClass,code);
@@ -53,10 +43,10 @@ public class SubmitionController {
                 submition.setId(lastSubmitionId);
             }
 
-if(codeRunner.result.equals("✅ All test cases passed!")){
-    submition.setPassed(true);
-    submition =  this.submitionService.Update(submition,submition.getId());
-}
+            if(codeRunner.result.equals("✅ All test cases passed!")){
+                submition.setPassed(true);
+                submition =  this.submitionService.Update(submition,submition.getId());
+            }
             return ResponseEntity.status(HttpStatus.OK)
                     .header("Content-Type", "text/plain")
                     .body(codeRunner.result);
@@ -73,7 +63,6 @@ if(codeRunner.result.equals("✅ All test cases passed!")){
     List<Submition> getSubmitions(){
         return this.submitionService.getSubmitions();    }
 
-<<<<<<< HEAD
     @GetMapping("/{userId}")
     List<Submition> getSubmitionsByUser(@PathVariable Integer userId){
         return this.submitionService.getSubmitions().stream().filter(submition -> submition.getUserId()==userId).toList();    }
@@ -83,7 +72,3 @@ if(codeRunner.result.equals("✅ All test cases passed!")){
         return this.submitionService.getSubmitions().stream().filter(submition -> submition.getId()==submitId)
                 .map(submition -> submition.getProblem().getTitle()).findAny().get(); }
 }
-=======
-
-    }
->>>>>>> origin/job

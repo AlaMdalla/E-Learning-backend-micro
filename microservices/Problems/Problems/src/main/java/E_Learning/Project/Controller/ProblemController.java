@@ -15,12 +15,12 @@ import java.io.IOException;
 import java.util.List;
 @RestController
 
-    @RequestMapping("/problems")
+@RequestMapping("/problems")
 
 
 public class ProblemController {
 
-private ProblemService problemService;
+    private ProblemService problemService;
     FileReaderService fileReaderService = new FileReaderServiceImpl();
     CodeCompiler codeCompiler = new CodeCompilerJavaImpl();
     TestCaseExecutor testCaseExecutor = new TestCaseExecutorJavaImpl();
@@ -48,14 +48,13 @@ private ProblemService problemService;
     Problem editProblem(@PathVariable Integer id,@RequestBody Problem p){
         return this.problemService.updateProblem(id,p);
     }
-<<<<<<< HEAD
     @GetMapping("passedProblems/{userid}")
     List<String> getPassedProblem(@PathVariable Integer userid){
         List<Problem> problems=this.problemService.getProblems();
-      return   problems.stream().filter(problem -> problem.getSubmitions()
-                .stream().anyMatch(submition ->  submition.getUserId()==userid && submition.isPassed()) ).map(problem -> problem.getTitle())
-              .toList();
-    // problems=   problems.stream().filter(problem -> problem.getSubmitions().stream().filter(submition -> submition.getUserId()==userid && submition.isPassed()).isParallel()).toList();
+        return   problems.stream().filter(problem -> problem.getSubmitions()
+                        .stream().anyMatch(submition ->  submition.getUserId()==userid && submition.isPassed()) ).map(problem -> problem.getTitle())
+                .toList();
+        // problems=   problems.stream().filter(problem -> problem.getSubmitions().stream().filter(submition -> submition.getUserId()==userid && submition.isPassed()).isParallel()).toList();
 
     }
     @GetMapping("doneProblems/{userid}")
@@ -67,7 +66,5 @@ private ProblemService problemService;
         // problems=   problems.stream().filter(problem -> problem.getSubmitions().stream().filter(submition -> submition.getUserId()==userid && submition.isPassed()).isParallel()).toList();
 
     }
-=======
->>>>>>> origin/job
 
 }

@@ -1,13 +1,11 @@
 package com.example.pidevfinal.entities;
 
 import jakarta.persistence.*;
-import lombok.Data;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 @Entity
-@Data
 public class Job {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

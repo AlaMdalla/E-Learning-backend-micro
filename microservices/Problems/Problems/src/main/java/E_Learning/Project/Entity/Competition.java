@@ -2,10 +2,7 @@ package E_Learning.Project.Entity;
 
 import jakarta.persistence.*;
 
-<<<<<<< HEAD
 import java.time.LocalDateTime;
-=======
->>>>>>> origin/job
 import java.util.List;
 
 @Entity
@@ -25,10 +22,7 @@ public class Competition {
     private String title;
     private  String description;
     private List<String> prices;
-<<<<<<< HEAD
     private LocalDateTime dateOfComp ;
-=======
->>>>>>> origin/job
     @OneToMany
     private List<Problem> problems;
 

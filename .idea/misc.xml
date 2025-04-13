@@ -1,0 +1,34 @@
+<project version="4">
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
+  <component name="MavenProjectsManager">
+    <option name="originalFiles">
+      <list>
+        <option value="$PROJECT_DIR$/microservices/candidat/pom.xml" />
+        <option value="$PROJECT_DIR$/microservices/eureka-server/pom.xml" />
+        <option value="$PROJECT_DIR$/microservices/Problems/Problems/pom.xml" />
+        <option value="$PROJECT_DIR$/microservices/getway/getway/pom.xml" />
+        <option value="$PROJECT_DIR$/microservices/gateway/getway/pom.xml" />
+        <option value="$PROJECT_DIR$/microservices/blog/pom.xml" />
+        <option value="$PROJECT_DIR$/microservices/Training/pom.xml" />
+        <option value="$PROJECT_DIR$/microservices/job/pom.xml" />
+        <option value="$PROJECT_DIR$/microservices/users/pom.xml" />
+        <option value="$PROJECT_DIR$/microservices/E-Learning-backend-jobs/pom.xml" />
+        <option value="$PROJECT_DIR$/microservices/subscription/pom.xml" />
+        <option value="$PROJECT_DIR$/microservices/E-Learning-backend-jobs/E-Learning-backend-jobs/pom.xml" />
+      </list>
+    </option>
+    <option name="ignoredFiles">
+      <set>
+        <option value="$PROJECT_DIR$/microservices/E-Learning-backend-jobs/pom.xml" />
+        <option value="$PROJECT_DIR$/microservices/job/pom.xml" />
+      </set>
+    </option>
+  </component>
+  <component name="PWA">
+    <option name="enabled" value="true" />
+    <option name="wasEnabledAtLeastOnce" value="true" />
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_23" default="true" project-jdk-name="openjdk-23" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/out" />
+  </component>
+</project>

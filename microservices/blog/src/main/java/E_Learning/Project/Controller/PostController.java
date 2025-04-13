@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Base64;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/blog/posts")
@@ -145,4 +146,23 @@ public class PostController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
+    @PostMapping("/{postId}/share-on-facebook")
+    public ResponseEntity<?> sharePostOnFacebook(
+            @RequestParam Integer userId,
+            @PathVariable Long postId,
+            @RequestParam String accessToken) {
+        try {
+            postService.sharePostOnFacebook(userId, postId, accessToken);
+            return new ResponseEntity<>("Post shared on Facebook successfully", HttpStatus.OK);
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (SecurityException e) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Not authorized: " + e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Failed to share post on Facebook: " + e.getMessage());
+        }
+    }
+
+
 }

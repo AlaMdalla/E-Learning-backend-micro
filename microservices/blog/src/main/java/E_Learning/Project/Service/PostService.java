@@ -3,6 +3,7 @@ package E_Learning.Project.Service;
 import E_Learning.Project.Entity.Post;
 
 import java.util.List;
+import java.util.Map;
 
 public interface PostService {
     Post savePost(Integer userId, Post post);
@@ -16,4 +17,7 @@ public interface PostService {
 
 
     Post getPostByIdAndUpdating(Integer userId, Long postId);
+    void sharePostOnFacebook(Integer userId, Long postId, String accessToken) throws Exception;
+    String exchangeAccessToken(String shortLivedToken) throws Exception;
+    Map<String, String> getPages(String userAccessToken) throws Exception;
 }

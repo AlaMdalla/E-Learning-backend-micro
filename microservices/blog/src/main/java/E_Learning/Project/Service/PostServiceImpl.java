@@ -246,4 +246,96 @@ public class PostServiceImpl implements PostService {
 
         return postRepository.save(existingPost);
     }
+
+
+        public String exchangeAccessToken(String shortLivedToken) throws Exception {
+            String exchangeUrl = "https://graph.facebook.com/v20.0/oauth/access_token";
+            Map<String, String> params = new HashMap<>();
+            params.put("grant_type", "fb_exchange_token");
+            params.put("client_id", "462761353526376");
+            params.put("client_secret", "e6a78a363faea17aafa37efdb0c66d49"); // Use the App Secret here
+            params.put("fb_exchange_token", shortLivedToken);
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+
+            HttpEntity<Map<String, String>> entity = new HttpEntity<>(params, headers);
+
+            try {
+                ResponseEntity<Map> response = restTemplate.postForEntity(exchangeUrl, entity, Map.class);
+                if (response.getStatusCode() == HttpStatus.OK && response.getBody() != null) {
+                    return (String) response.getBody().get("access_token");
+                } else {
+                    throw new Exception("Failed to exchange access token: API returned status " + response.getStatusCode());
+                }
+            } catch (Exception e) {
+                throw new Exception("Failed to exchange access token: " + e.getMessage(), e);
+            }
+        }
+
+    public void sharePostOnFacebook(Integer userId, Long postId, String accessToken) throws Exception {
+        // Étape 1 : Échanger le token
+        String longLivedToken = exchangeAccessToken(accessToken);
+
+        // Étape 2 : Vérifier le post
+        Optional<Post> optionalPost = postRepository.findById(postId);
+        if (!optionalPost.isPresent()) {
+            throw new EntityNotFoundException("Post with ID " + postId + " not found");
+        }
+
+        Post post = optionalPost.get();
+        if (!post.getUserId().equals(userId)) {
+            throw new SecurityException("User not authorized to share this post");
+        }
+
+        // Étape 3 : Obtenir pageId et pageToken
+        Map<String, String> pageData = getPages(longLivedToken);
+        String pageId = pageData.get("pageId");
+        String pageAccessToken = pageData.get("pageToken");
+
+        // Construire le message
+        String message = post.getTitle() + "\n" + post.getContent();
+        String postUrl = "https://localhost:4200/view-post/" + postId;
+        String fullMessage = message + "\n" + postUrl;
+
+        // Étape 4 : Préparer l'appel à Facebook Graph API
+        String graphApiUrl = "https://graph.facebook.com/v20.0/" + pageId + "/feed";
+
+        Map<String, String> requestBody = new HashMap<>();
+        requestBody.put("message", fullMessage);
+        requestBody.put("access_token", pageAccessToken);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        HttpEntity<Map<String, String>> entity = new HttpEntity<>(requestBody, headers);
+
+        try {
+            ResponseEntity<Map> response = restTemplate.postForEntity(graphApiUrl, entity, Map.class);
+            if (response.getStatusCode() != HttpStatus.OK) {
+                throw new Exception("Failed to share post on Facebook: API returned status " + response.getStatusCode());
+            }
+        } catch (Exception e) {
+            throw new Exception("Failed to share post on Facebook: " + e.getMessage(), e);
+        }
+    }
+
+    public Map<String, String> getPages(String userAccessToken) throws Exception {
+        String url = "https://graph.facebook.com/me/accounts?access_token=" + userAccessToken;
+        ResponseEntity<Map> response = restTemplate.getForEntity(url, Map.class);
+
+        if (response.getStatusCode() == HttpStatus.OK && response.getBody() != null) {
+            List<Map<String, Object>> pages = (List<Map<String, Object>>) response.getBody().get("data");
+
+            if (!pages.isEmpty()) {
+                Map<String, Object> firstPage = pages.get(0);
+                String pageId = (String) firstPage.get("id");
+                String pageToken = (String) firstPage.get("access_token");
+
+                return Map.of("pageId", pageId, "pageToken", pageToken);
+            }
+        }
+
+        throw new Exception("No pages found or failed to retrieve pages");
+    }
 }

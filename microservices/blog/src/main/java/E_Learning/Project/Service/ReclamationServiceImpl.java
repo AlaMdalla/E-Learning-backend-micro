@@ -6,9 +6,14 @@ import E_Learning.Project.Repository.PostRepository;
 import E_Learning.Project.Repository.ReclamationRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -63,5 +68,48 @@ public class ReclamationServiceImpl implements ReclamationService {
     @Override
     public List<Reclamation> getReclamationByPostId(Long postId) {
         return reclamationRepository.findByPostId(postId);
+    }
+    public ByteArrayInputStream exportReclamationsToExcel() throws IOException {
+        List<Reclamation> reclamations = reclamationRepository.findAll();
+
+        // Créer un nouveau classeur Excel
+        try (Workbook workbook = new XSSFWorkbook()) {
+            Sheet sheet = workbook.createSheet("Reclamations");
+
+            // Créer l'en-tête
+            Row headerRow = sheet.createRow(0);
+            String[] columns = {"ID", "Reason", "User ID", "Post ID", "Created At"};
+            for (int i = 0; i < columns.length; i++) {
+                Cell cell = headerRow.createCell(i);
+                cell.setCellValue(columns[i]);
+                // Optionnel : style pour l'en-tête
+                CellStyle headerStyle = workbook.createCellStyle();
+                Font font = workbook.createFont();
+                font.setBold(true);
+                headerStyle.setFont(font);
+                cell.setCellStyle(headerStyle);
+            }
+
+            // Remplir les données
+            int rowNum = 1;
+            for (Reclamation reclamation : reclamations) {
+                Row row = sheet.createRow(rowNum++);
+                row.createCell(0).setCellValue(reclamation.getId());
+                row.createCell(1).setCellValue(reclamation.getReason());
+                row.createCell(2).setCellValue(reclamation.getUserId());
+                row.createCell(3).setCellValue(reclamation.getPost().getId());
+                row.createCell(4).setCellValue(reclamation.getCreatedAt().toString());
+            }
+
+            // Ajuster la taille des colonnes
+            for (int i = 0; i < columns.length; i++) {
+                sheet.autoSizeColumn(i);
+            }
+
+            // Écrire le classeur dans un flux de sortie
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            workbook.write(out);
+            return new ByteArrayInputStream(out.toByteArray());
+        }
     }
 }

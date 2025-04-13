@@ -4,9 +4,15 @@ import E_Learning.Project.Entity.Reclamation;
 import E_Learning.Project.Service.ReclamationService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/blog/posts")
@@ -76,6 +82,25 @@ public class ReclamationController {
             return ResponseEntity.ok(reclamationService.getReclamationByPostId(postId));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Something went wrong");
+        }
+    }
+    @GetMapping("/reclamations/export-excel")
+    public ResponseEntity<InputStreamResource> exportReclamationsToExcel() {
+        try {
+            ByteArrayInputStream in = reclamationService.exportReclamationsToExcel();
+
+            // Configurer les en-têtes pour le téléchargement
+            HttpHeaders headers = new HttpHeaders();
+            headers.add("Content-Disposition", "attachment; filename=reclamations.xlsx");
+
+            // Retourner le fichier Excel
+            return ResponseEntity.ok()
+                    .headers(headers)
+                    .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                    .body(new InputStreamResource(in));
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(null);
         }
     }
 }

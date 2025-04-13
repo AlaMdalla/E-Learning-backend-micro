@@ -21,6 +21,10 @@ public class Comment {
     private Date createdAt;
 
     private Long userId; // New field to store the user ID
+    // Ajout des compteurs de réactions
+    private int likeCount = 0;
+    private int laught = 0;
+    private int angry = 0;
 
     @ManyToOne
     @JoinColumn(name = "post_id", nullable = false)
@@ -51,4 +55,10 @@ public class Comment {
     public void setParentComment(Comment parentComment) { this.parentComment = parentComment; }
     public List<Comment> getReplies() { return replies; }
     public void setReplies(List<Comment> replies) { this.replies = replies; }
+    public int getLikeCount() { return likeCount; }
+    public void setLikeCount(int likeCount) { this.likeCount = likeCount; }
+    public int getLaught() { return laught; }
+    public void setLaught(int laught) { this.laught = laught; }
+    public int getAngry() { return angry; }
+    public void setAngry(int angry) { this.angry = angry; }
 }

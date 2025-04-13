@@ -8,4 +8,5 @@ public interface CommentService {
     Comment createComment(Long postId, Long userId, String content);
     Comment replyToComment(Long parentCommentId, Long userId, String content);
     List<Comment> getCommentByPostId(Long postId);
+    void reactComment(Long userId, Long commentId, String reactionType); // Nouvelle méthode
 }

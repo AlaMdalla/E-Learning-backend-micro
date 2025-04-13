@@ -2,6 +2,7 @@ package E_Learning.Project.Entity;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -21,6 +22,7 @@ public class Competition {
     private String title;
     private  String description;
     private List<String> prices;
+    private LocalDateTime dateOfComp ;
     @OneToMany
     private List<Problem> problems;
 

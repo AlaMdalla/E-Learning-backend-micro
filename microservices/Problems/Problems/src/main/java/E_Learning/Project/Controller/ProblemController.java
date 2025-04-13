@@ -57,5 +57,14 @@ private ProblemService problemService;
     // problems=   problems.stream().filter(problem -> problem.getSubmitions().stream().filter(submition -> submition.getUserId()==userid && submition.isPassed()).isParallel()).toList();
 
     }
+    @GetMapping("doneProblems/{userid}")
+    List<String> getalldoneProblems(@PathVariable Integer userid){
+        List<Problem> problems=this.problemService.getProblems();
+        return   problems.stream().filter(problem -> problem.getSubmitions()
+                        .stream().anyMatch(submition ->  submition.getUserId()==userid ) ).map(problem -> problem.getTitle())
+                .toList();
+        // problems=   problems.stream().filter(problem -> problem.getSubmitions().stream().filter(submition -> submition.getUserId()==userid && submition.isPassed()).isParallel()).toList();
+
+    }
 
 }

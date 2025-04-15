@@ -7,49 +7,13 @@ import lombok.Data;
 import java.util.Date;
 
 @Entity
-@Data
 public class Reclamation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String reason;
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
-
     private Integer userId;
 
-
-    @Column(nullable = false, updatable = false) // Ensure it’s stored and not updated
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date createdAt;
-
-    @ManyToOne
-    @JoinColumn(name = "post_id", nullable = false)
-    @JsonBackReference
-    private Post post;
-
-
-    public Reclamation() {
-        this.createdAt = new Date(); // Initialize to current date/time
-    }
-    @PrePersist
-    protected void onCreate() {
-        if (this.createdAt == null) {
-            this.createdAt = new Date(); // Set to current date/time if null
-        }
-    }
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
     public Long getId() {
         return id;
     }
@@ -66,7 +30,21 @@ public class Reclamation {
         this.reason = reason;
     }
 
+    public Integer getUserId() {
+        return userId;
+    }
 
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
 
     public Post getPost() {
         return post;
@@ -74,5 +52,36 @@ public class Reclamation {
 
     public void setPost(Post post) {
         this.post = post;
+    }
+
+    public String getQrCode() {
+        return qrCode;
+    }
+
+    public void setQrCode(String qrCode) {
+        this.qrCode = qrCode;
+    }
+
+    @Column(nullable = false, updatable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createdAt;
+
+    @ManyToOne
+    @JoinColumn(name = "post_id", nullable = false)
+    @JsonBackReference
+    private Post post;
+
+    @Lob // To store large data (Base64 string)
+    private String qrCode; // Store the QR code as a Base64 string
+
+    public Reclamation() {
+        this.createdAt = new Date();
+    }
+
+    @PrePersist
+    protected void onCreate() {
+        if (this.createdAt == null) {
+            this.createdAt = new Date();
+        }
     }
 }

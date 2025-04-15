@@ -55,6 +55,7 @@ public class CommentServiceImpl implements CommentService {
             comment.setLaught(0);
             comment.setAngry(0);
 
+
             return commentRepository.save(comment);
         }
         throw new EntityNotFoundException("Post Not Found");

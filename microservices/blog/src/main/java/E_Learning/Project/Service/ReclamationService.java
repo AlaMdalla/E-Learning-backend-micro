@@ -7,11 +7,12 @@ import java.io.IOException;
 import java.util.List;
 
 public interface ReclamationService {
-    Reclamation createReclamation(Long postId, Integer userId, String reason); // Updated signature
+    Reclamation createReclamation(Long postId, Integer userId, String reason);
     List<Reclamation> getAllReclamations();
     Reclamation getReclamationById(Long id);
     Reclamation updateReclamation(Long id, Reclamation reclamationDetails);
     void deleteReclamation(Long id);
     List<Reclamation> getReclamationByPostId(Long postId);
     ByteArrayInputStream exportReclamationsToExcel() throws IOException;
+    String getPostDetailsForQrCode(Long postId);
 }

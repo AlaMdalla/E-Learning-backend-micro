@@ -14,3 +14,4 @@ public interface SubsDao extends JpaRepository<Subs, Integer> {
     @Query("SELECT s FROM Subs s WHERE s.subsDiscountedPrice < :price")
     List<Subs> findSubscriptionsCheaperThan(@Param("price") Double price);
 }
+

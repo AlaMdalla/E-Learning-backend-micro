@@ -7,9 +7,21 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import tn.esprit.pidev.Entity.Evaluation;
 
+import java.util.List;
+
 public interface EvaluationRepository extends JpaRepository<Evaluation, Integer> {
   @Transactional
   @Modifying
-  @Query("DELETE FROM Evaluation e WHERE e.training.idTraining= :trainingId")
-  void deleteByTrainingId(@Param("trainingId") int trainingId);
+  void deleteByTrainingIdTraining(@Param("trainingId") int trainingId);
+
+  /*@Query("DELETE FROM Evaluation e WHERE e.training.idTraining= :trainingId")
+  void deleteByTrainingId(@Param("trainingId") int trainingId);*/
+
+
+  @Transactional
+  @Query("SELECT e FROM Evaluation e WHERE e.training.idTraining = :trainingId")
+  Evaluation getEvaluationByTrainingId(@Param("trainingId") int trainingId);
+
+
+  List<Evaluation> findByTraining_IdTraining(int idTraining);
 }

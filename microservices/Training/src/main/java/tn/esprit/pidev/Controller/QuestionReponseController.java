@@ -5,11 +5,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.pidev.Entity.QuestionReponse;
 import tn.esprit.pidev.Service.IQuestionReponseService;
+import tn.esprit.pidev.dto.QuestionReponseDTO;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/questions")
+@RequestMapping("/trainings/questions")
 public class QuestionReponseController {
 
     private final IQuestionReponseService questionReponseService;
@@ -35,7 +36,7 @@ public class QuestionReponseController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<QuestionReponse> addQuestion(@RequestBody QuestionReponse question) {
+    public ResponseEntity<QuestionReponse> addQuestion(@RequestBody QuestionReponseDTO question) {
         QuestionReponse newQuestion = questionReponseService.addQuestion(question);
         return new ResponseEntity<>(newQuestion, HttpStatus.CREATED);
     }
@@ -57,11 +58,12 @@ public class QuestionReponseController {
     }
 
 
+  @GetMapping("/random/{idEvaluation}/{limit}")
+  public ResponseEntity<List<QuestionReponse>> getRandomQuestions(
+    @PathVariable int idEvaluation,
+    @PathVariable int limit) {
+    List<QuestionReponse> questions = questionReponseService.getRandomQuestions(idEvaluation, limit);
+    return new ResponseEntity<>(questions, HttpStatus.OK);
+  }
 
-    //récupérer les questions aléatoires
-    @GetMapping("/random/{idEvaluation}")
-    public ResponseEntity<List<QuestionReponse>> getRandomQuestions(@PathVariable int idEvaluation) {
-        List<QuestionReponse> questions = questionReponseService.getRandomQuestions(idEvaluation);
-        return new ResponseEntity<>(questions, HttpStatus.OK);
-    }
 }

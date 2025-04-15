@@ -17,19 +17,17 @@ public class QuestionReponse {
     private String questionText;
 
     @Enumerated(EnumType.STRING)
-    private QuestionType type; // Type de question (QCM, Vrai/Faux, Ouverte)
-
+    private QuestionType type;
     @ElementCollection
-    private List<String> options; // Liste des options pour QCM
+    private List<String> options;
 
-    private String bonneReponse; // La réponse correcte
+    private String bonneReponse;
 
-    private double score; // Score attribué pour cette question
+    private double score;
 
     @ManyToOne
     @JoinColumn(name = "idEvaluation")
-    private Evaluation evaluation; // Relation avec Evaluation
-
+    private Evaluation evaluation;
     // Getters et Setters
     public int getIdQuestion() {
         return idQuestion;

@@ -7,8 +7,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import tn.esprit.pidev.Entity.Training;
 import tn.esprit.pidev.Repository.EvaluationRepository;
 import tn.esprit.pidev.Repository.TrainingRepository;
+import tn.esprit.pidev.dto.TrainingDTO;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class TrainingServiceImp implements ITrainingService
@@ -23,16 +25,19 @@ public class TrainingServiceImp implements ITrainingService
 
 
     @Override
-    public List<Training> getAllTrainings() {
-        return trainingRepository.findAll();
+    public List<TrainingDTO> getAllTrainings() {
+      List<Training> trainings = trainingRepository.findAll();
+      return trainings.stream().map(TrainingDTO::new).collect(Collectors.toList());
+
     }
 
-    @Override
-    public Training getTrainingById(int idTraining) {
-        return trainingRepository.findById(idTraining).orElse(null);
-    }
+  @Override
+  public Training getTrainingById(int idTraining) {
+    return trainingRepository.findById(idTraining)
+      .orElseThrow(() -> new RuntimeException("Training avec l'ID " + idTraining + " est introuvable."));
+  }
 
-    @Override
+  @Override
     public Training saveTraining(Training training) {
         return trainingRepository.save(training);
     }

@@ -1,27 +1,28 @@
 package tn.esprit.pidev.Entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.deser.std.StringDeserializer;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
-import java.util.List;
 import java.util.Set;
 @Entity
 @AllArgsConstructor
-@NoArgsConstructor
+
 public class Evaluation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-     private int idEvaluation;
-    @ManyToOne
-    @JoinColumn(name = "training_id")
+    private int idEvaluation;
 
+    @ManyToOne
+
+    @JsonBackReference // Stops infinite recursion
+    @JoinColumn(name = "training_id", referencedColumnName = "idTraining")
     private Training training;
 
+    @Enumerated(EnumType.STRING)
+    private Niveau niveau;
     private String description;
     private String type;
     private String evaluation_duration;
@@ -30,13 +31,22 @@ public class Evaluation {
     private boolean certificat;
 
     @OneToMany(mappedBy = "evaluation", cascade = CascadeType.ALL)
-    private List<QuestionReponse> questions;  // Removed @JsonDeserialize annotation
+    private Set<QuestionReponse> questions;
 
-
-    public Evaluation() {
+    public Evaluation(int idEvaluation, boolean certificat, Date createdAt, String description,
+                      String evaluation_duration, double score, String type, Training training) {
+        this.idEvaluation = idEvaluation;
+        this.certificat = certificat;
+        this.createdAt = createdAt;
+        this.description = description;
+        this.evaluation_duration = evaluation_duration;
+        this.score = score;
+        this.type = type;
+        this.training = training;
     }
+    public Evaluation() {
 
-
+    }
     public int getIdEvaluation() {
         return idEvaluation;
     }
@@ -101,18 +111,24 @@ public class Evaluation {
         this.certificat = certificat;
     }
 
-    public Evaluation(List<QuestionReponse> questions) {
+    public Evaluation(Set<QuestionReponse> questions) {
         this.questions = questions;
     }
 
-    public List<QuestionReponse> getQuestions() {
+    public Set<QuestionReponse> getQuestions() {
         return questions;
     }
 
-    public void setQuestions(List<QuestionReponse> questions) {
+    public void setQuestions(Set<QuestionReponse> questions) {
         this.questions = questions;
     }
 
+    public Niveau getNiveau() {
+        return niveau;
+    }
 
+    public void setNiveau(Niveau niveau) {
+        this.niveau = niveau;
+    }
 
 }

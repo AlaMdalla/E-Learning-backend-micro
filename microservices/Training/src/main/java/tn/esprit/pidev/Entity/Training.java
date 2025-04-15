@@ -2,17 +2,17 @@ package tn.esprit.pidev.Entity;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 @Entity
-@AllArgsConstructor
+//@AllArgsConstructor
 @NoArgsConstructor
 public class Training
 {  @Id
@@ -20,17 +20,40 @@ public class Training
 private int idTraining;
     private String title;
     private String content;
-  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-  private Date trainingdate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    private Date trainingdate;
 
     private String duration;
     @Enumerated(EnumType.STRING)
     private status status;
     @Enumerated(EnumType.STRING)
     private level level;
-    @OneToMany(mappedBy = "training", cascade = CascadeType.ALL)
-    @JsonIgnore
-    private List<Evaluation> evaluations;
+    private boolean premium;
+
+    public boolean isPremium() {
+        return premium;
+    }
+
+    public void setPremium(boolean premium) {
+        this.premium = premium;
+    }
+
+    public Training(int idTraining, String title, String content, Date trainingdate, String duration, tn.esprit.pidev.Entity.status status, tn.esprit.pidev.Entity.level level, boolean premium, List<Evaluation> evaluations, List<Subscription> subscriptions) {
+        this.idTraining = idTraining;
+        this.title = title;
+        this.content = content;
+        this.trainingdate = trainingdate;
+        this.duration = duration;
+        this.status = status;
+        this.level = level;
+        this.premium = premium;
+        this.evaluations = evaluations;
+        this.subscriptions = subscriptions;
+    }
+
+    @OneToMany(mappedBy = "training", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference // Forward serialization
+    private List<Evaluation> evaluations = new ArrayList<>();
 
     public int getIdTraining() {
         return idTraining;

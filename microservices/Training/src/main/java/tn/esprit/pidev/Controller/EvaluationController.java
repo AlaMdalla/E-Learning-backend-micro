@@ -6,11 +6,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.pidev.Entity.Evaluation;
 import tn.esprit.pidev.Service.IEvaluationService;
+import tn.esprit.pidev.dto.EvaluationDTO;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/evaluation")
+@RequestMapping("/trainings/evaluation")
 public class EvaluationController {
 
     private final IEvaluationService evaluationService;
@@ -24,7 +25,7 @@ public class EvaluationController {
     public ResponseEntity<List<Evaluation>> getAllEvaluations() {
         return new ResponseEntity<>(evaluationService.getAllEvaluations(), HttpStatus.OK);
     }
-    // http://localhost:8089/e-learning/evaluation//retrieve/{idEvaluation}
+    // http://localhost:8089/e-learning/evaluation/retrieve/{idEvaluation}
     @GetMapping("/retrieve/{idEvaluation}")
     public ResponseEntity<Evaluation> getEvaluationById(@PathVariable("idEvaluation") int idEvaluation) {
         Evaluation evaluation = evaluationService.getEvaluationById(idEvaluation);
@@ -34,19 +35,18 @@ public class EvaluationController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+    // http://localhost:8089/e-learning/evaluation/{idTraining}
+    @GetMapping("/{idTraining}")
+    public ResponseEntity<List<EvaluationDTO>> getEvaluationsByTrainingId(@PathVariable("idTraining") int idTraining) {
+        List<EvaluationDTO> evaluations = evaluationService.getEvaluationsByTrainingId(idTraining);
+        System.out.println("Évaluations envoyées au frontend : " + evaluations);
+        return new ResponseEntity<>(evaluations, HttpStatus.OK);
+    }
 
     // http://localhost:8089/e-learning/evaluation/add
     @PostMapping("/add")
-    public ResponseEntity<Evaluation> addEvaluation(@RequestBody Evaluation evaluation) {
-        System.out.println("Received Evaluation: " + evaluation);
-        if (evaluation.getTraining() == null) {
-            System.out.println("❌ Training is NULL!");
-        } else {
-            System.out.println("✅ Training ID: " + evaluation.getTraining().getIdTraining());
-        }
-
-        Evaluation savedEvaluation = evaluationService.addEvaluation(evaluation);
-        return new ResponseEntity<>(savedEvaluation, HttpStatus.CREATED);
+    public ResponseEntity<Evaluation> addEvaluation(@RequestBody EvaluationDTO evaluation) {
+        return new ResponseEntity<>(evaluationService.addEvaluation(evaluation), HttpStatus.CREATED);
     }
 
 

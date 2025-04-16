@@ -30,6 +30,7 @@ public class GetwayApplication {
 
 
 				.route("training",r->r.path("/e-learning/**").uri("lb://TRAINING"))
+				.route("chat",r->r.path("/chat/**").uri("lb://CHAT"))
 
 
 				.route("question",r->r.path("/question/**").uri("lb://TRAINING"))

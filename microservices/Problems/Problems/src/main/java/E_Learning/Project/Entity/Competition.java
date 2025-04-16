@@ -3,10 +3,19 @@ package E_Learning.Project.Entity;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @Entity
 public class Competition {
+    public Date getDateOfComp() {
+        return dateOfComp;
+    }
+
+    public void setDateOfComp(Date dateOfComp) {
+        this.dateOfComp = dateOfComp;
+    }
+
     public List<Problem> getProblems() {
         return problems;
     }
@@ -22,7 +31,7 @@ public class Competition {
     private String title;
     private  String description;
     private List<String> prices;
-    private LocalDateTime dateOfComp ;
+    private Date dateOfComp ;
     @OneToMany
     private List<Problem> problems;
 

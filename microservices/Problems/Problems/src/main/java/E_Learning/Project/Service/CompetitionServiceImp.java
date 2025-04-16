@@ -68,6 +68,7 @@ public class CompetitionServiceImp implements CompetitionService{
         }
 
         existingCompetition.setImage(updatedCompetition.getImage());
+        existingCompetition.setDateOfComp(updatedCompetition.getDateOfComp());
 
 
         if (updatedCompetition.getDescription() != null) {

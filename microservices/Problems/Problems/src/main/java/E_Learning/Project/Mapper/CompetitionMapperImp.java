@@ -12,7 +12,9 @@ public class CompetitionMapperImp implements CompetitionMapper{
                 .description(competition.getDescription())
                 .image(competition.getImage())
                 .prices(competition.getPrices())
+
                 .problems(competition.getProblems())
+
                 .build();
 
         return competitionDto;

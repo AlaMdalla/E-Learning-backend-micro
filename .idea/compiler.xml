@@ -13,18 +13,6 @@
         <module name="eureka-server" />
         <module name="websocketproject" />
       </profile>
-      <profile name="Annotation profile for Project" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <processorPath useClasspath="false">
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/unknown/lombok-unknown.jar" />
-        </processorPath>
-        <module name="Project" />
-        <module name="Project (1)" />
-        <module name="Project (2)" />
-        <module name="pidev" />
-      </profile>
       <profile name="Annotation profile for subscription" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
@@ -33,8 +21,20 @@
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/unknown/lombok-unknown.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/unknown/lombok-unknown.jar" />
         </processorPath>
-        <module name="pidevfinal" />
         <module name="subscription" />
+      </profile>
+      <profile name="Annotation profile for pidevfinal" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/unknown/lombok-unknown.jar" />
+        </processorPath>
+        <module name="Project" />
+        <module name="pidevfinal" />
+        <module name="Project (1)" />
+        <module name="Project (2)" />
+        <module name="pidev" />
       </profile>
     </annotationProcessing>
   </component>

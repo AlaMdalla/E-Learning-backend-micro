@@ -17,12 +17,14 @@ public class CandidateService {
     private final JobRepository jobRepository;
     private final CandidateRepository candidateRepository;
     private final EmailService emailService;
+    private final SmsService smsService;
 
     @Autowired
-    public CandidateService(JobRepository jobRepository, CandidateRepository candidateRepository, EmailService emailService) {
+    public CandidateService(JobRepository jobRepository, CandidateRepository candidateRepository, EmailService emailService, SmsService smsService) {
         this.jobRepository = jobRepository;
         this.candidateRepository = candidateRepository;
         this.emailService = emailService;
+        this.smsService = smsService;
     }
 
     public List<CandidateResponse> getAllCandidates() {
@@ -77,6 +79,11 @@ public class CandidateService {
 
         emailService.sendApplicationEmail(
                 savedCandidate.getEmail(),
+                job.getTitle(),
+                savedCandidate.getStatus()
+        );
+        smsService.sendSms(
+                savedCandidate.getPhone(),
                 job.getTitle(),
                 savedCandidate.getStatus()
         );

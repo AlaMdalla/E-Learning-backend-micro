@@ -67,6 +67,14 @@ public class UserManagementController {
     public ResponseEntity<ReqRes> deleteUSer(@PathVariable Integer userId){
         return ResponseEntity.ok(usersManagementService.deleteUser(userId));
     }
+    @PostMapping("/auth/forgot-password")
+    public ResponseEntity<ReqRes> forgotPassword(@RequestBody ReqRes request) {
+        return ResponseEntity.ok(usersManagementService.forgotPassword(request));
+    }
 
+    @PostMapping("/auth/reset-password")
+    public ResponseEntity<ReqRes> resetPassword(@RequestBody ReqRes request) {
+        return ResponseEntity.ok(usersManagementService.resetPassword(request));
+    }
 
 }

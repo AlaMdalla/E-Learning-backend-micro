@@ -38,12 +38,14 @@ public class SecurityConfig {
                         .requestMatchers("/user/**").hasAnyAuthority("USER")
 
                         .requestMatchers("/update/**").permitAll()
-
+                        .requestMatchers("/auth/forgot-password").permitAll()
+                        .requestMatchers("/auth/reset-password").permitAll()
                         .requestMatchers("/adminuser/**").hasAnyAuthority("ADMIN", "USER")
                         .requestMatchers("/auth/register").permitAll()
 
                         .requestMatchers("/adminuser/**").hasAnyAuthority("ADMIN", "USER")
                         .requestMatchers("/auth/register").permitAll() // Allow public registration
+
                         .anyRequest().authenticated())
                 .sessionManagement(manager->manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider()).addFilterBefore(

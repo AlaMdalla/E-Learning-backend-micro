@@ -213,4 +213,50 @@ public class UsersManagementService {
         return reqRes;
 
     }
+
+    public ReqRes forgotPassword(ReqRes passwordRequest) {
+        ReqRes response = new ReqRes();
+        try {
+            Optional<OurUsers> userOptional = usersRepo.findByEmail(passwordRequest.getEmail());
+            if (userOptional.isPresent()) {
+                response.setStatusCode(200);
+                response.setMessage("Password reset instructions sent to email");
+            } else {
+                response.setStatusCode(404);
+                response.setMessage("Email not found");
+            }
+        } catch (Exception e) {
+            response.setStatusCode(500);
+            response.setMessage("Error occurred: " + e.getMessage());
+        }
+        return response;
+    }
+
+    public ReqRes resetPassword(ReqRes passwordRequest) {
+        ReqRes response = new ReqRes();
+        try {
+            Optional<OurUsers> userOptional = usersRepo.findByEmail(passwordRequest.getEmail());
+            if (userOptional.isPresent()) {
+                OurUsers user = userOptional.get();
+
+                if (!passwordRequest.getPassword().equals(passwordRequest.getCity())) { // Using city as confirmPassword
+                    response.setStatusCode(400);
+                    response.setMessage("Passwords do not match");
+                    return response;
+                }
+
+                user.setPassword(passwordEncoder.encode(passwordRequest.getPassword()));
+                usersRepo.save(user);
+                response.setStatusCode(200);
+                response.setMessage("Password reset successfully");
+            } else {
+                response.setStatusCode(404);
+                response.setMessage("Email not found");
+            }
+        } catch (Exception e) {
+            response.setStatusCode(500);
+            response.setMessage("Error occurred: " + e.getMessage());
+        }
+        return response;
+    }
 }

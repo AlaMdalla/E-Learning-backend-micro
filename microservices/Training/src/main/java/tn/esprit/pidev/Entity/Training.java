@@ -75,6 +75,9 @@ private int idTraining;
         return content;
     }
 
+    public Training() {
+    }
+
     public void setContent(String content) {
         this.content = content;
     }

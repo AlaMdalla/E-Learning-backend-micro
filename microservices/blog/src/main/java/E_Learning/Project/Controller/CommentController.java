@@ -1,46 +1,74 @@
 package E_Learning.Project.Controller;
 
+import E_Learning.Project.Entity.Comment;
 import E_Learning.Project.Service.CommentService;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
-@RequestMapping("/blog/")
+import java.util.List;
 
+@RestController
+@RequestMapping("/blog/comments")
 public class CommentController {
+
     @Autowired
     private CommentService commentService;
 
-    @PostMapping("comments/create")
-    public ResponseEntity<?> createComment(@RequestParam Long postId,
-                                           @RequestParam String postedBy,
-                                           @RequestParam String content) {
+    @PostMapping("/create")
+    public ResponseEntity<?> createComment(
+            @RequestHeader("User-Id") Long userId,
+            @RequestParam Long postId,
+            @RequestParam String content,
+            @RequestParam(required = false) Long parentCommentId) {
         try {
-            return ResponseEntity.ok(commentService.createComment(postId, postedBy, content));
+            Comment comment;
+            if (parentCommentId != null) {
+                comment = commentService.replyToComment(parentCommentId, userId, content);
+            } else {
+                comment = commentService.createComment(postId, userId, content);
+            }
+            return ResponseEntity.status(HttpStatus.CREATED).body(comment);
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Erreur lors de la création du commentaire : " + e.getMessage());
         }
     }
-
-    @GetMapping("comments/{postId}")
-    public ResponseEntity<?> getCommentByPostId(@PathVariable Long postId) {
-        try {
-            return ResponseEntity.ok(commentService.getCommentByPostId(postId));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Something Wrong");
-        }
+    @GetMapping("/post/{postId}")
+    public ResponseEntity<List<Comment>> getCommentsByPostId(@PathVariable Long postId) {
+        List<Comment> comments = commentService.getCommentByPostId(postId);
+        return ResponseEntity.ok(comments);
     }
 
-    @PostMapping("comments/reply")
-    public ResponseEntity<?> replyToComment(@RequestParam Long parentCommentId,
-                                            @RequestParam String postedBy,
-                                            @RequestParam String content) {
+    @PutMapping("/{commentId}/react")
+    public ResponseEntity<?> reactComment(
+            @RequestHeader("User-Id") Long userId,
+            @PathVariable Long commentId,
+            @RequestParam String reaction) {
         try {
-            return ResponseEntity.ok(commentService.replyToComment(parentCommentId, postedBy, content));
+            commentService.reactComment(userId, commentId, reaction);
+            return ResponseEntity.ok(new String[]{"Comment reacted successfully with " + reaction});
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        } catch (IllegalStateException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
+    @PostMapping("/reply")
+    public ResponseEntity<?> replyToComment(
+            @RequestParam Long parentCommentId,
+            @RequestParam Long userId, // Add userId parameter
+            @RequestParam String content) {
+        try {
+            return ResponseEntity.ok(commentService.replyToComment(parentCommentId, userId, content));
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         } catch (Exception e) {
